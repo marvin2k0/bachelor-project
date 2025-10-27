@@ -1,7 +1,7 @@
-## Decription
+## Description
 Describe the epic
 
-## User-Storys
+## User-Stories
 - #ab US-1
 
 ## Acceptance criteria
