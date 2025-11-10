@@ -1,0 +1,44 @@
+stages:
+  - test
+  - build
+
+variables:
+  BACKEND_IMAGE: $CI_REGISTRY_IMAGE/backend
+  FRONTEND_IMAGE: $CI_REGISTRY_IMAGE/frontend
+  DOCKER_BUILDKIT: "1"
+  DOCKER_TLS_CERTDIR: ""
+
+test_backend:
+  stage: test
+  image: maven:3-eclipse-temurin-21
+  script:
+    - cd backend
+    - mvn -B -q test
+
+docker_build_backend:
+  stage: build
+  tags:
+    - ml-docker
+  image: docker:28
+  services:
+    - docker:28-dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker build -t ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./backend
+    - docker push ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA
+    - docker tag ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA ${BACKEND_IMAGE}:latest
+    - docker push ${BACKEND_IMAGE}:latest
+
+docker_build_frontend:
+  stage: build
+  tags:
+    - ml-docker
+  image: docker:28
+  services:
+    - docker:28-dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker build -t ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./frontend
+    - docker push ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA
+    - docker tag ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA ${FRONTEND_IMAGE}:latest
+    - docker push ${FRONTEND_IMAGE}:latest
