@@ -2,37 +2,66 @@ package org.example.backend;
 
 import org.example.backend.survey.Survey;
 import org.example.backend.survey.SurveyService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SurveyTests {
     @Autowired
     private SurveyService service;
 
+    private Survey survey;
+
+    @AfterEach
+    void cleanup() {
+        if (survey.getId() != null)
+            this.service.deleteSurveyById(survey.getId());
+
+        assertThrows(RuntimeException.class, () -> this.service.getSurveyById(this.survey.getId()));
+        this.survey = null;
+    }
+
     @Test
-    void survey_create_test() {
-        final Survey survey = Survey.builder()
-                .name("SEP")
+    void test_create_survey() {
+        final String surveyName = "SEP";
+        this.survey = Survey.builder()
+                .name(surveyName)
                 .build();
         service.saveSurvey(survey);
 
         assertTrue(service.getAllSurveys()
                 .stream()
-                .anyMatch(s -> s.getName().equals("SEP")));
+                .anyMatch(s -> s.getName().equals(surveyName)));
     }
 
     @Test
-    void survey_find_by_name() {
-        final Survey survey = Survey.builder()
-                .name("MCI")
+    void test_find_survey_by_name() {
+        final String surveyName = "MCI";
+        this.survey = Survey.builder()
+                .name(surveyName)
                 .build();
         service.saveSurvey(survey);
 
-        assertNotNull(service.getSurveyByName("MCI"));
+        assertNotNull(service.getSurveyByName(surveyName));
+    }
+
+    @Test
+    void test_survey_dates() {
+        final LocalDateTime now = LocalDateTime.now();
+        this.survey = Survey.builder()
+                .startTime(now)
+                .endTime(now.plusDays(1))
+                .build();
+
+        assertTrue(this.survey.isActive(now));
+        assertTrue(this.survey.isActive(now.plusHours(12)));
+        assertTrue(this.survey.isActive(now.plusHours(24)));
+        assertFalse(this.survey.isActive(now.plusHours(25)));
     }
 }
