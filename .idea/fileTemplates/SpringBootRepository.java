@@ -2,5 +2,5 @@
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ${NAME} extends JpaRepository<$NAME, Long> {
+public interface ${NAME}Repository extends JpaRepository<$NAME, Long> {
 }
