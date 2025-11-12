@@ -16,6 +16,16 @@ with the **Rounded** and **Material Symbols (New)** styles enabled.
 - Icons inherit text color unless explicitly styled.
 - Avoid stretching, rotating, or recoloring icons outside the design system.
 
+```CSS
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  fill: currentColor;
+}
+```
+
 ### Examples
 |                     Icon                     | Name |        usage         |
 |:--------------------------------------------:|:----:|:--------------------:|
