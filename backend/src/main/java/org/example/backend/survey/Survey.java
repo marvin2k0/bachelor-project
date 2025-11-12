@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.example.backend.user.User;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,10 @@ public class Survey {
 
     @Column(unique = true)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
