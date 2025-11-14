@@ -12,7 +12,6 @@ variables:
   BACKEND_IMAGE: $CI_REGISTRY_IMAGE/backend
   FRONTEND_IMAGE: $CI_REGISTRY_IMAGE/frontend
   DOCKER_BUILDKIT: "1"
-  DOCKER_TLS_CERTDIR: ""
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
 
 test_backend:
@@ -32,8 +31,6 @@ docker_build_backend:
   tags:
     - ml-docker
   image: docker:28
-  services:
-    - docker:28-dind
   variables:
     BUILDKIT_INLINE_CACHE: "1"
   script:
@@ -49,8 +46,6 @@ docker_build_frontend:
   tags:
     - ml-docker
   image: docker:28
-  services:
-    - docker:28-dind
   variables:
     BUILDKIT_INLINE_CACHE: "1"
   script:
