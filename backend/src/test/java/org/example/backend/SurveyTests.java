@@ -20,7 +20,7 @@ public class SurveyTests {
 
     @AfterEach
     void cleanup() {
-        if (survey.getId() != null)
+        if (survey != null && survey.getId() != null)
             this.service.deleteSurveyById(survey.getId());
 
         assertThrows(RuntimeException.class, () -> this.service.getSurveyById(this.survey.getId()));
