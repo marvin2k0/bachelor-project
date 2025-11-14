@@ -12,11 +12,16 @@ variables:
   BACKEND_IMAGE: $CI_REGISTRY_IMAGE/backend
   FRONTEND_IMAGE: $CI_REGISTRY_IMAGE/frontend
   DOCKER_BUILDKIT: "1"
-  DOCKER_TLS_CERTDIR: ""
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
 
 test_backend:
   stage: test
   image: maven:3-eclipse-temurin-21
+  cache:
+    key: maven-$CI_COMMIT_REF_SLUG
+    paths:
+      - ".m2/repository"
+    policy: pull-push
   script:
     - cd backend
     - mvn -B -q test
@@ -26,11 +31,12 @@ docker_build_backend:
   tags:
     - ml-docker
   image: docker:28
-  services:
-    - docker:28-dind
+  variables:
+    BUILDKIT_INLINE_CACHE: "1"
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - docker build -t ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./backend
+    - docker pull ${BACKEND_IMAGE}:latest || true
+    - docker build --cache-from ${BACKEND_IMAGE}:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./backend
     - docker push ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA
     - docker tag ${BACKEND_IMAGE}:$CI_COMMIT_SHORT_SHA ${BACKEND_IMAGE}:latest
     - docker push ${BACKEND_IMAGE}:latest
@@ -40,11 +46,12 @@ docker_build_frontend:
   tags:
     - ml-docker
   image: docker:28
-  services:
-    - docker:28-dind
+  variables:
+    BUILDKIT_INLINE_CACHE: "1"
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - docker build -t ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./frontend
+    - docker pull ${FRONTEND_IMAGE}:latest || true
+    - docker build --cache-from ${FRONTEND_IMAGE}:latest --build-arg BUILDKIT_INLINE_CACHE=1 -t ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA ./frontend
     - docker push ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA
     - docker tag ${FRONTEND_IMAGE}:$CI_COMMIT_SHORT_SHA ${FRONTEND_IMAGE}:latest
     - docker push ${FRONTEND_IMAGE}:latest
