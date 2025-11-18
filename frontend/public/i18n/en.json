@@ -2,6 +2,7 @@
   "navbar": {
     "home": "Home",
     "create": "Create",
-    "profile": "Profile"
+    "profile": "Profile",
+    "logout": "Logout"
   }
 }

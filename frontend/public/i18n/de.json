@@ -2,6 +2,7 @@
   "navbar": {
     "home": "Startseite",
     "create": "Erstellen",
-    "profile": "Profil"
+    "profile": "Profil",
+    "logout": "Abmelden"
   }
 }

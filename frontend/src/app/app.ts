@@ -1,10 +1,9 @@
-import {ButtonComponent} from './components/button/button.component';
 import {Component, signal} from '@angular/core';
-import {TranslocoPipe} from '@jsverse/transloco';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonComponent, TranslocoPipe],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
