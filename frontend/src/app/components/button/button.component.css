@@ -1,7 +1,21 @@
+button{
+  border: none;
+  width: 100%;
+  padding-block: .6rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 15px;
+}
+
 .red {
-  background-color: red;
+  background-color: var(--red);
 }
 
 .purple {
-  background-color: #726EFF;
+  background-color: var(--purple);
+}
+
+.white {
+  background-color: var(--light);
+  color: var(--dark-primary);
 }

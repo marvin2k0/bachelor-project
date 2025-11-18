@@ -9,5 +9,5 @@ import {Component, input} from '@angular/core';
 export class ButtonComponent {
 
   label = input.required<string>()
-  color = input.required<"red" | "purple">()
+  color = input.required<"red" | "purple" | "white">()
 }
