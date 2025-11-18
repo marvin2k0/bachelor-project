@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class ButtonComponent {
 
+  label = input.required<string>()
+  color = input.required<"red" | "purple">()
 }
