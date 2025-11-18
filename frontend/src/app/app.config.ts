@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideHttpClient(), provideTransloco({
-        config: { 
+        config: {
           availableLangs: ['de', 'en'],
           defaultLang: 'de',
           // Remove this option if your application doesn't support changing language in runtime.
