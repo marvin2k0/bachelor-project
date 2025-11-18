@@ -8,6 +8,10 @@ header.full {
   background-color: var(--dark-primary);
 }
 
+app-navbar.full {
+  display: none;
+}
+
 .header-container {
   display: flex;
   align-items: center;
