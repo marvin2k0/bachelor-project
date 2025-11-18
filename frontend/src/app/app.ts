@@ -1,12 +1,14 @@
-import {Component, inject, signal} from '@angular/core';
-import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
+import { Component } from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [TranslocoPipe],
+  imports: [
+    RouterOutlet
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('frontend');
+
 }

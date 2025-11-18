@@ -1,3 +1,7 @@
 {
-  "welcome": "Willkommen ;)"
+  "navbar": {
+    "home": "Startseite",
+    "create": "Erstellen",
+    "profile": "Profil"
+  }
 }

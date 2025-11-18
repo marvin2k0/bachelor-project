@@ -1,0 +1,18 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100dvh;
+}
+
+main {
+  background: var(--gradient);
+  overflow: auto;
+}
+
+@media (width > 760px) {
+  :host {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: unset;
+  }
+}
