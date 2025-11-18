@@ -18,6 +18,7 @@ app-navbar.full {
   justify-content: space-between;
   color: var(--light);
   padding: min(25px, 7%);
+  height: var(--header-height);
 }
 
 h2 {

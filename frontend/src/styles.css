@@ -27,6 +27,8 @@
   --navbar-desktop-bg: var(--light-lighter);
   --purple: var(--light-purple);
   --red: var(--light-red);
+
+  --header-height: 5rem;
 }
 
 @media (prefers-color-scheme: dark) {
