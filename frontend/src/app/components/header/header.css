@@ -1,6 +1,7 @@
 header {
   top: 0;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   background-color: transparent;
 }
 
@@ -38,17 +39,18 @@ h2 {
 
 @media (width > 760px) {
   header {
-    position: sticky;
-    display: flex;
-    flex-direction: column;
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    width: fit-content;
+  }
+
+  header.full {
     height: 100%;
-    padding: min(25px, 7%);
-    background-color: var(--navbar-desktop-bg) !important;
+    background-color: var(--navbar-desktop-bg);
   }
 
   .header-container {
     padding: 0;
-    width: 200px;
     grid-column: 1;
     align-items: flex-start;
     flex-direction: column;

@@ -6,13 +6,17 @@
 }
 
 main {
+  margin-top: var(--header-height);
   background: var(--gradient);
-  overflow: auto;
 }
 
 @media (width > 760px) {
   :host {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 200px 1fr;
     grid-template-rows: unset;
+  }
+
+  main {
+    margin-top: 0;
   }
 }
