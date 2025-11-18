@@ -5,6 +5,8 @@
   --dark-primary: #212B38;
   --dark-light: #37465B;
   --dark-lighter: #4A5D79;
+  --dark-purple: #726EFF;
+  --dark-red: #FF6E6E;
 
   --light-gradient: linear-gradient(to bottom right, var(--light-light), var(--light-primary));
   --light-darker: #DCE4EF;
@@ -13,7 +15,8 @@
   --light-lighter: #E0E6F0;
   --primary-text: #1A1A1A;
 
-  --purple: #726EFF;
+  --light-purple: #655CFF;
+  --light-red: #E65C5C;
   --light: #ffffff;
 
   --icon-color: var(--primary-text);
@@ -22,6 +25,8 @@
   --gradient: var(--light-gradient);
   --navbar-bg: var(--light-darker);
   --navbar-desktop-bg: var(--light-lighter);
+  --purple: var(--light-purple);
+  --red: var(--light-red);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +37,8 @@
     --navbar-bg: var(--primary);
     --icon-color: var(--dark-lighter);
     --navbar-desktop-bg: var(--dark-primary);
+    --purple: var(--dark-purple);
+    --red: var(--dark-red);
   }
 }
 
@@ -60,4 +67,8 @@ h2 {
   height: 36px;
   vertical-align: middle;
   fill: var(--text);
+}
+
+button {
+  color: var(--light);
 }
