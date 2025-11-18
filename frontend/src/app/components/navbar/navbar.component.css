@@ -1,10 +1,8 @@
 nav {
-  color: var(--light);
   position: fixed;
   height: 100%;
   width: 100%;
   transition: transform 0.3s ease-in-out;
-  background-color: var(--dark-primary);
 }
 
 nav ul {

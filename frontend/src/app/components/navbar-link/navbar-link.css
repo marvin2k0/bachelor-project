@@ -1,5 +1,5 @@
 a {
   text-decoration: none;
-  color: #ffffff;
+  color: var(--text);
   cursor: pointer;
 }
