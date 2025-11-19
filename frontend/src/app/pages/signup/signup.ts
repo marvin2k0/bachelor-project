@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {AppService} from '../../services/app-service';
 import {Header} from '../../components/header/header';
 
 @Component({
@@ -11,5 +10,4 @@ import {Header} from '../../components/header/header';
   styleUrl: './signup.css',
 })
 export default class Signup {
-  appService = inject(AppService)
 }
