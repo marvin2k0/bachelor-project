@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import org.example.backend.survey.Survey;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,22 @@ public class UserService {
         return entity;
     }
 
+    public User getUserByName(String name) {
+        final Optional<User> optional = repository.findByName(name);
+        User entity;
+        if (optional.isPresent()) {
+            entity = optional.get();
+        } else {
+            throw new RuntimeException("entity not found for name:" + name);
+        }
+        return entity;
+    }
+
     public void deleteUserById(long id) {
         this.repository.deleteById(id);
     }
+
+    public void deleteUserByName(String name) { this.repository.deleteByName(name); }
 
     public User updateUser(Long id, User entity) {
 

@@ -33,6 +33,17 @@ public class SurveyService {
         return entity;
     }
 
+    public Survey getSurveyByName(String name) {
+        final Optional<Survey> optional = repository.findByName(name);
+        Survey entity;
+        if (optional.isPresent()) {
+            entity = optional.get();
+        } else {
+            throw new RuntimeException("entity not found for name:" + name);
+        }
+        return entity;
+    }
+
     public void deleteSurveyById(long id) {
         this.repository.deleteById(id);
     }

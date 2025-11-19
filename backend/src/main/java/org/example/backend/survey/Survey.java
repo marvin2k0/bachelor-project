@@ -6,6 +6,13 @@ import lombok.Setter;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.example.backend.user.User;
+import org.example.backend.group.Group;
+import org.example.backend.groupPreference.GroupPreference;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -13,10 +20,42 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "Survey")
+@Table(name = "survey")
 public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User creator;
+
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+
+    @ManyToMany
+    @JoinTable(
+            name = "survey_participants",
+            joinColumns = @JoinColumn(name = "survey_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> participants = new ArrayList<>();
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Group> groups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPreference> groupPreferences = new ArrayList<>();
+
+    public boolean isActive() {
+        return isActive(LocalDateTime.now());
+    }
+
+    public boolean isActive(LocalDateTime now) {
+        return (startTime == null || !now.isBefore(startTime)) &&
+                (endTime == null || !now.isAfter(endTime));
+    }
 }
