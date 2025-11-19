@@ -1,0 +1,11 @@
+<ul>
+  @defer (when surveys().length > 0) {
+    @for (survey of surveys(); track survey.name) {
+      <app-survey-display [survey]="survey"></app-survey-display>
+    } @empty {
+      <li>No surveys found</li>
+    }
+  } @loading () {
+    <span>Loading</span>
+  }
+</ul>

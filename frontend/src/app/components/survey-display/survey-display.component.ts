@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
+import {Survey} from '../../model/survey';
 
 @Component({
   selector: 'app-survey-display',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './survey-display.component.css'
 })
 export class SurveyDisplayComponent {
-
+  survey = input.required<Survey>()
 }
