@@ -1,4 +1,4 @@
-import {Component, computed, inject} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {SurveyService} from '../../services/survey-service';
 import {SurveyDisplayComponent} from '../../components/survey-display/survey-display.component';
 
@@ -13,4 +13,8 @@ import {SurveyDisplayComponent} from '../../components/survey-display/survey-dis
 export default class Surveys {
   service = inject(SurveyService)
   surveys = computed(() => this.service.surveys());
+
+  ngOnInit() {
+    this.service.loadSurveys();
+  }
 }

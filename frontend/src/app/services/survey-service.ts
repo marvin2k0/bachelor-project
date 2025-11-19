@@ -11,15 +11,11 @@ export class SurveyService {
 
   surveys = signal<Survey[]>([])
 
-  constructor() {
-    this.loadSurveys()
-  }
-
   create(survey: Survey) {
     return this.http.post(`${this.baseUrl}`, survey);
   }
 
-  private loadSurveys() {
+  loadSurveys() {
     this.http.get<Survey[]>(this.baseUrl).subscribe({
       next: data => this.surveys.set(data),
       error: err => console.error(err)
