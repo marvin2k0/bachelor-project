@@ -4,5 +4,10 @@
     "create": "Erstellen",
     "profile": "Profil",
     "logout": "Abmelden"
+  },
+  "survey": {
+    "open": "Geöffnet",
+    "open_since": "Offen seit {{date}}",
+    "open_until": "Offen bis {{date}}"
   }
 }

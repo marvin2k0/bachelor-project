@@ -4,5 +4,10 @@
     "create": "Create",
     "profile": "Profile",
     "logout": "Logout"
+  },
+  "survey": {
+    "open": "Open",
+    "open_since": "Open since {{date}}",
+    "open_until": "Open until {{date}}"
   }
 }

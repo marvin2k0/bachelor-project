@@ -1,1 +1,14 @@
-<span>{{ survey().name }}</span>
+<div class="survey">
+  <div class="content">
+    <h3>{{ survey().name }}</h3>
+    <div class="dates">
+      @if (survey().startTime && !survey().endTime) {
+        <span>{{ "survey.open_since" | transloco: {"date": survey().startTime | date: "dd. MMMM"} }}</span>
+      } @else if (survey().endTime) {
+        <span>{{ "survey.open_until" | transloco: {"date": survey().endTime | date: "dd. MMMM" } }}</span>
+      } @else {
+        <span>{{ "survey.open" | transloco }}</span>
+      }
+    </div>
+  </div>
+</div>

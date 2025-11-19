@@ -17,7 +17,15 @@ export class SurveyService {
 
   loadSurveys() {
     this.http.get<Survey[]>(this.baseUrl).subscribe({
-      next: data => this.surveys.set(data),
+      next: data => {
+        const converted = data.map(survey => ({
+          ...survey,
+          startTime: survey.startTime ? new Date(survey.startTime) : null,
+          endTime: survey.endTime ? new Date(survey.endTime) : null
+        }));
+
+        this.surveys.set(converted)
+      },
       error: err => console.error(err)
     })
   }
