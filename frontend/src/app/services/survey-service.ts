@@ -1,13 +1,14 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Survey} from '../model/survey';
 import {HttpClient} from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SurveyService {
   private readonly http: HttpClient = inject(HttpClient)
-  private readonly baseUrl: string = "http://localhost:8080/api/v1/survey/";
+  private readonly baseUrl: string = `${environment.apiUrl}/api/v1/survey/`
 
   surveys = signal<Survey[]>([])
 
