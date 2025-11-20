@@ -2,7 +2,6 @@ header {
   top: 0;
   position: fixed;
   width: 100%;
-  background-color: transparent;
 }
 
 header.full {
@@ -39,6 +38,7 @@ h2 {
 
 @media (width > 760px) {
   header {
+    position: relative;
     padding-inline: 2rem;
     padding-block: 1rem;
     width: fit-content;
@@ -46,6 +46,7 @@ h2 {
 
   header.full {
     height: 100%;
+    width: 100%;
     background-color: var(--navbar-desktop-bg);
   }
 
