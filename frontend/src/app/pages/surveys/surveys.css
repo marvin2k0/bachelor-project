@@ -15,3 +15,9 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
 }
+
+@media (width > 760px) {
+  .surveys {
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  }
+}

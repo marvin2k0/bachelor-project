@@ -69,6 +69,13 @@ h2 {
   height: 36px;
   vertical-align: middle;
   fill: var(--text);
+  cursor: pointer;
+}
+
+.feather-icon {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2px;
 }
 
 button {

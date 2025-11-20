@@ -1,6 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Survey} from '../model/survey';
 import {HttpClient} from '@angular/common/http';
+import {tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,15 @@ export class SurveyService {
   surveys = signal<Survey[]>([])
 
   create(survey: Survey) {
-    return this.http.post(`${this.baseUrl}`, survey);
+    return this.http.post<Survey>(`${this.baseUrl}`, survey);
+  }
+
+  delete(survey: Survey) {
+    return this.http.delete<Survey>(`${this.baseUrl}${survey.id}`).pipe(
+      tap(_ => {
+        return this.surveys.update(surveys => surveys.filter(s => s.id !== survey.id))
+      })
+    );
   }
 
   loadSurveys() {

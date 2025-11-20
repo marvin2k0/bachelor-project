@@ -1,12 +1,14 @@
 .survey {
   display: flex;
   flex-direction: column;
-  background-color: var(--gradient); /* TODO farbe ändern */
-  border: 5px solid var(--primary);
+  background-color: var(--gradient); /* TODO farbe ändern, vllt random aus auswahl von farben? */
+  /*border: 5px solid var(--primary); /* TODO raus?? */
+  box-shadow: 0 0 10px 1px var(--primary);
   border-radius: 15px;
-  height: 150px;
+  height: 175px;
   overflow: hidden;
   cursor: pointer;
+  user-select: none;
 }
 
 .image_container {
@@ -23,10 +25,45 @@ img {
 .content {
   padding-inline: min(1rem, 5%);
   margin-block: auto;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
 }
 
 .dates {
   font-size: 0.75rem;
+}
+
+button {
+  background-color: transparent;
+  position: relative;
+  border: none;
+}
+
+svg {
+  position: relative;
+  width: 20px;
+  z-index: 3;
+}
+
+button:hover svg {
+  stroke: var(--red);
+}
+
+button:hover:before {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  content: " ";
+  width: 100%;
+  padding: .5rem;
+  aspect-ratio: 1;
+  background-color: var(--primary);
+  opacity: .5;
+  border-radius: 50%;
+  translate: -50% -50%;
+  z-index: 2;
 }
 
 @media(width > 760px) {
