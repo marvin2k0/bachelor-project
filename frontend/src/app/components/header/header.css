@@ -47,7 +47,7 @@ h2 {
   header.full {
     height: 100%;
     width: 100%;
-    background-color: var(--navbar-bg);
+    background-color: var(--navbar-desktop-bg);
   }
 
   .header-container {
