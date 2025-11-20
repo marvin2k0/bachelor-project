@@ -32,6 +32,7 @@ img {
 @media(width > 760px) {
   .survey {
     transition: scale 200ms ease-in-out;
+    height: 200px;
 
     &:hover {
       scale: 1.05;
