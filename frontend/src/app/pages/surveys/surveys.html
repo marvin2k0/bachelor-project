@@ -5,7 +5,7 @@
   </div>
 
   <div class="surveys">
-    @for (survey of surveys(); track survey.name) {
+    @for (survey of this.service.surveys(); track survey.name) {
       <app-survey-display [survey]="survey" (onDelete)="delete($event)"></app-survey-display>
     } @empty {
       <span>No surveys found</span>
