@@ -27,6 +27,7 @@
   --navbar-desktop-bg: var(--light-lighter);
   --purple: var(--light-purple);
   --red: var(--light-red);
+  --box-shadow: 0 0 10px 1px var(--primary);
 
   --header-height: 5rem;
 }
@@ -75,7 +76,7 @@ h2 {
 .feather-icon {
   fill: none;
   stroke: var(--text);
-  stroke-width: 2px;
+  stroke-width: 2.5px;
 }
 
 button {

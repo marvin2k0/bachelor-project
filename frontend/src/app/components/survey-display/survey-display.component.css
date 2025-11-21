@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: var(--gradient); /* TODO farbe ändern, vllt random aus auswahl von farben? */
   /*border: 5px solid var(--primary); /* TODO raus?? */
-  box-shadow: 0 0 10px 1px var(--primary);
+  box-shadow: var(--box-shadow);
   border-radius: 15px;
   height: 175px;
   overflow: hidden;
@@ -30,24 +30,34 @@ img {
   justify-content: space-between;
 }
 
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
 .dates {
   font-size: 0.75rem;
+}
+
+.actions {
+  display: flex;
+  position: relative;
+  flex: 1;
+  align-content: center;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 button {
   background-color: transparent;
   position: relative;
   border: none;
-}
-
-svg {
-  position: relative;
-  width: 20px;
-  z-index: 3;
-}
-
-button:hover svg {
-  stroke: var(--red);
+  cursor: pointer;
 }
 
 button:hover:before {
@@ -63,6 +73,16 @@ button:hover:before {
   border-radius: 50%;
   translate: -50% -50%;
   z-index: 2;
+}
+
+#delete_btn:hover .icon {
+  stroke: var(--red);
+}
+
+.icon {
+  position: relative;
+  width: 18px;
+  z-index: 3;
 }
 
 @media(width > 760px) {
