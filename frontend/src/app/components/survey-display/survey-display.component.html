@@ -7,9 +7,9 @@
       <h3>{{ survey().name }}</h3>
       <div class="dates">
         @if (survey().startTime && !survey().endTime) {
-          <span>{{ "survey.open_since" | transloco: {"date": survey().startTime | date: "dd. MMMM"} }}</span>
+          <span>{{ "survey.open_since" | transloco: {"date": survey().startTime | date: ("date_format" | transloco) } }}</span>
         } @else if (survey().endTime) {
-          <span>{{ "survey.open_until" | transloco: {"date": survey().endTime | date: "dd. MMMM" } }}</span>
+          <span>{{ "survey.open_until" | transloco: {"date": survey().endTime | date: ("date_format" | transloco) } }}</span>
         } @else {
           <span>{{ "survey.open" | transloco }}</span>
         }

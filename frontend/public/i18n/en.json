@@ -11,5 +11,6 @@
     "open_until": "Open until {{date}}",
     "all_surveys_header": "All surveys",
     "all_survey_description": "Here you can see your surveys"
-  }
+  },
+  "date_format": "MMM d"
 }
