@@ -28,6 +28,7 @@ public class Survey {
 
     @Column(unique = true)
     private String name;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
