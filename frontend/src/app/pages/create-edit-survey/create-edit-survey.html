@@ -1,0 +1,6 @@
+@if (!survey()) {
+  <p>This survey does not exist.</p>
+} @else {
+  <p>Editing survey {{ id() }}</p>
+  <span>{{ survey()?.name }}</span>
+}
