@@ -1,0 +1,35 @@
+services:
+  backend:
+    image: bp_backend
+    environment:
+      DB_USER: bpuser
+      DB_PW: password
+      DB_NAME: bpdb
+      DB_HOST: db
+    ports:
+      - "127.0.0.1:4444:8080"
+    depends_on:
+      - db
+    networks:
+      - bp_internal
+  frontend:
+    image: bp_frontend
+    ports:
+      - "127.0.0.1:5555:80"
+    networks:
+      - bp_internal
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: unless-stopped
+    networks:
+      - bp_internal
+    environment:
+      POSTGRES_USER: bpuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bpdb
+
+networks:
+  bp_internal:
+    external: false
+    
