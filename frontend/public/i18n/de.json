@@ -8,6 +8,9 @@
   "survey": {
     "open": "Geöffnet",
     "open_since": "Offen seit {{date}}",
-    "open_until": "Offen bis {{date}}"
-  }
+    "open_until": "Offen bis {{date}}",
+    "all_surveys_header": "Alle Umfragen",
+    "all_survey_description": "Hier siehst du deine Umfragen"
+  },
+  "date_format": "dd. MMM"
 }
