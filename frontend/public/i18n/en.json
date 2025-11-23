@@ -6,6 +6,7 @@
     "logout": "Logout"
   },
   "survey": {
+    "entity": "Survey",
     "open": "Open",
     "open_since": "Open since {{date}}",
     "open_until": "Open until {{date}}",
@@ -27,8 +28,13 @@
       "error_wrong_lines": "Corrupted lines:",
       "error_message": "Import failed. Please check the CSV file and try again.",
       "success_message": "{{count}} of {{total}} participants successfully added"
+    },
+    "group": {
+      "entity": "Group",
+      "entity_pl": "Groups"
     }
   },
   "date_format": "MMM d",
-  "save": "Save"
+  "save": "Save",
+  "entity_does_not_exist": "{{entity}} not found"
 }

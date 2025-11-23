@@ -27,10 +27,6 @@ public class GroupPreference {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "survey_id")
-    private Survey survey;
-
-    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 

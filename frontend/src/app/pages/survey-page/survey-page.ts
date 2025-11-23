@@ -1,4 +1,4 @@
-import {Component, computed, inject, input} from '@angular/core';
+import {Component, computed, inject } from '@angular/core';
 import {Survey} from '../../model/survey';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs';
@@ -6,12 +6,17 @@ import {ActivatedRoute} from '@angular/router';
 import {SurveyService} from '../../services/survey-service';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {DatePipe} from '@angular/common';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {GroupDisplay} from '../../components/group-display/group-display';
 
 @Component({
   selector: 'app-survey-page',
   imports: [
     TranslocoPipe,
-    DatePipe
+    DatePipe,
+    CdkDropList,
+    GroupDisplay,
+    CdkDrag
   ],
   templateUrl: './survey-page.html',
   styleUrl: './survey-page.css',
@@ -36,4 +41,17 @@ export default class SurveyPage {
 
     return this.surveyService.getSurveyById(surveyId);
   })
+
+  protected readonly groups = computed(() => this.survey()!.groups)
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups(), event.previousIndex, event.currentIndex)
+    this.assignPriorities()
+  }
+
+  private assignPriorities() {
+    for (let i = 0; i < this.groups().length; i++) {
+      console.log(`Priorität ${i + 1} = ${this.groups()[i].name}`)
+    }
+  }
 }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.backend.user.User;
 import org.example.backend.group.Group;
-import org.example.backend.groupPreference.GroupPreference;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,9 +46,6 @@ public class Survey {
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Group> groups = new ArrayList<>();
-
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     public boolean isActive() {
         return isActive(LocalDateTime.now());
