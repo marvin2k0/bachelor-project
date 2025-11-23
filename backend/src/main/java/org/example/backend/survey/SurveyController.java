@@ -2,6 +2,7 @@ package org.example.backend.survey;
 
 import lombok.RequiredArgsConstructor;
 
+import org.example.backend.survey.dto.ParticipantImportResultDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin
 @RestController
@@ -41,5 +43,13 @@ public class SurveyController {
     public ResponseEntity<Void> deleteSurvey(@PathVariable Long id) {
         service.deleteSurveyById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{surveyId}/participants/import")
+    public ResponseEntity<ParticipantImportResultDto> importParticipants(
+            @PathVariable Long surveyId,
+            @RequestParam("file") MultipartFile file
+    ) {
+        return ResponseEntity.ok(service.importParticipantsFromCsv(surveyId, file));
     }
 }
