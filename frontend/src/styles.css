@@ -83,6 +83,6 @@ button {
   color: var(--light);
 }
 
-.hidden {
+app-modal.hidden {
   display: none !important;
 }
