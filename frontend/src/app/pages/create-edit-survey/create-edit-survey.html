@@ -1,0 +1,25 @@
+@let s = survey();
+
+@if (s) {
+  <div class="wrapper">
+    <div class="header">
+      <h1>Edit survey</h1>
+      <span>{{ s.name }}</span>
+    </div>
+
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label>Name</label>
+        <app-input-field formControlName="name"></app-input-field>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <app-input-field></app-input-field>
+      </div>
+
+      <app-button label="{{ 'save' | transloco }}" color="purple"></app-button>
+    </form>
+  </div>
+} @else {
+  <p>This survey does not exist</p>
+}

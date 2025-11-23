@@ -12,5 +12,6 @@
     "all_surveys_header": "Alle Umfragen",
     "all_survey_description": "Hier siehst du deine Umfragen"
   },
-  "date_format": "dd. MMM"
+  "date_format": "dd. MMM",
+  "save": "Speichern"
 }
