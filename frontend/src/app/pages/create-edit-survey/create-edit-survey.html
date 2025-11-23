@@ -16,6 +16,10 @@
         <label>Description</label>
         <app-input-field></app-input-field>
       </div>
+      <div class="form-group">
+        <label>{{ "survey.settings.import_participants" | transloco }}</label>
+        <app-survey-participant-import [survey]="s"></app-survey-participant-import>
+      </div>
 
       <app-button label="{{ 'save' | transloco }}" color="purple"></app-button>
     </form>
