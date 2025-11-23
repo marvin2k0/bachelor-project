@@ -8,6 +8,9 @@ import {InputField} from '../../components/input-field/input-field';
 import {ButtonComponent} from '../../components/button/button.component';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  SurveyParticipantImportComponent
+} from '../../components/survey-participant-import/survey-participant-import.component';
 
 @Component({
   selector: 'app-create-edit-survey',
@@ -15,7 +18,8 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
     InputField,
     ButtonComponent,
     TranslocoPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SurveyParticipantImportComponent
   ],
   templateUrl: './create-edit-survey.html',
   styleUrl: './create-edit-survey.css',

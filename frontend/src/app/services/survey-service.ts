@@ -2,6 +2,8 @@ import {computed, inject, Injectable, signal} from '@angular/core';
 import {Survey} from '../model/survey';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs';
+import { ParticipantImportResult} from '../model/participant-import-result';
+import { Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +54,15 @@ export class SurveyService {
 
   getSurveyById(id: number): Survey | null {
     return this._surveys().find(s => s.id === id) ?? null;
+  }
+
+  uploadParticipants(surveyId: number, file: File): Observable<ParticipantImportResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<ParticipantImportResult>(
+      `${this.baseUrl}${surveyId}/participants/import`,
+      formData
+    );
   }
 }

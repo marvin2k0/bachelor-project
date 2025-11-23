@@ -3,23 +3,27 @@
 @if (s) {
   <div class="wrapper">
     <div class="header">
-      <h1>Edit survey</h1>
+      <h1>{{ "survey.settings.edit_title" | transloco }}</h1>
       <span>{{ s.name }}</span>
     </div>
 
     <form [formGroup]="form">
       <div class="form-group">
-        <label>Name</label>
+        <label>{{ "survey.settings.name" | transloco }}</label>
         <app-input-field formControlName="name"></app-input-field>
       </div>
       <div class="form-group">
-        <label>Description</label>
+        <label>{{ "survey.settings.description" | transloco }}</label>
         <app-input-field></app-input-field>
+      </div>
+      <div class="form-group">
+        <label>{{ "survey.settings.import_participants" | transloco }}</label>
+        <app-survey-participant-import [survey]="s"></app-survey-participant-import>
       </div>
 
       <app-button label="{{ 'save' | transloco }}" color="purple"></app-button>
     </form>
   </div>
 } @else {
-  <p>This survey does not exist</p>
+  <p>{{ "survey.does_not_exist" | transloco}}</p>
 }
