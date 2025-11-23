@@ -19,11 +19,10 @@
 
   @if (result()) {
     <section aria-label="Import-Ergebnis">
-      <h3>Import-Ergebnis</h3>
+      <h3>{{ "survey.import.import_result" | transloco }}</h3>
 
       <p>
-        {{ result()!.successCount }} von
-        {{ result()!.totalRows }} Zeilen erfolgreich importiert.
+        {{ "survey.import.success_message" | transloco: { count: result()!.successCount, total: result()!.totalRows } }}
       </p>
 
       @if (result()!.errors.length > 0) {
