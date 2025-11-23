@@ -1,0 +1,22 @@
+@let s = survey();
+
+@if (s) {
+  <div class="survey">
+    <div class="header">
+      <h2>{{ s.name }}</h2>
+      <p>{{ s.description }}</p>
+      <div class="end-time">
+        @if (s.endTime) {
+        <span>{{ "survey.open_until" | transloco: {"date": s.endTime | date: ("date_format" | transloco) } }}</span>
+        } @else {
+        <span>{{ "survey.open" | transloco }}</span>
+      }
+      </div>
+    </div>
+    <div class="groups">
+
+    </div>
+  </div>
+} @else {
+  <p>{{ "survey.does_not_exist" | transloco}}</p>
+}
