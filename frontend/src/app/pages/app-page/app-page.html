@@ -3,3 +3,5 @@
 <main>
   <router-outlet/>
 </main>
+
+<app-modal [class.hidden]="!modalService.visible()"></app-modal>

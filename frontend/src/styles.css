@@ -82,3 +82,7 @@ h2 {
 button {
   color: var(--light);
 }
+
+.hidden {
+  display: none !important;
+}

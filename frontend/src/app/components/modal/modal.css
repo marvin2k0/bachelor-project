@@ -1,0 +1,59 @@
+:host {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+.overlay {
+  background-color: black;
+  opacity: .5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+}
+
+.modal {
+  background-color: var(--primary);
+  padding: 2rem;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 1000;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header button {
+  background-color: transparent;
+  border: none;
+}
+
+.icon {
+  width: 25px;
+}
+
+p {
+  margin-block: 2rem;
+}
+
+.button_actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 5rem;
+  position: relative;
+}
+
+.button_actions app-button {
+  flex: 1;
+  max-width: 100px;
+}
