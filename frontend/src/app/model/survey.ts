@@ -1,6 +1,6 @@
 export interface Survey {
+  id?: number,
   name: string,
-
-  startTime: Date,
-  endTime: Date
+  startTime: Date | null,
+  endTime: Date | null
 }

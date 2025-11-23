@@ -8,6 +8,8 @@
 main {
   margin-top: var(--header-height);
   background: var(--gradient);
+  padding-inline: min(5rem, 4%);
+  padding-top: 1rem;
 }
 
 @media (width > 760px) {

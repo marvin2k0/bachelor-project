@@ -23,8 +23,17 @@ export const routes: Routes = [
     canMatch: [authMatchGuard],
     children: [
       {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
         path: 'home',
-        loadComponent: () => import('./pages/home/home'),
+        loadComponent: () => import('./pages/surveys/surveys')
+      },
+      {
+        path: 'surveys',
+        loadComponent: () => import('./pages/surveys/surveys')
       }
     ]
   },
