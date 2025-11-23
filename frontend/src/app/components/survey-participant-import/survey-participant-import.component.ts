@@ -1,18 +1,23 @@
-import { Component, ChangeDetectionStrategy, input, signal, inject } from '@angular/core';
+import {Component, ChangeDetectionStrategy, input, signal, inject, computed} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SurveyService} from '../../services/survey-service';
 import { ParticipantImportResult} from '../../model/participant-import-result';
+import {Survey} from '../../model/survey';
+import {ButtonComponent} from '../button/button.component';
+import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
 
 @Component({
   selector: 'app-survey-participant-import',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, TranslocoPipe],
   templateUrl: './survey-participant-import.component.html',
   styleUrl: './survey-participant-import.component.css'
 })
 export class SurveyParticipantImportComponent {
-  //surveyId = input.required<number>();
-  surveyId = 1;
+  private readonly translocoService = inject(TranslocoService)
+
+  survey = input.required<Survey>();
+  surveyId = computed(() => this.survey().id);
 
   private readonly importService = inject(SurveyService);
 
@@ -32,10 +37,9 @@ export class SurveyParticipantImportComponent {
 
   onSubmit(event: Event): void {
     event.preventDefault();
-
     const file = this.selectedFile();
     if (!file) {
-      this.errorMessage.set('Bitte zuerst eine CSV-Datei auswählen.');
+      this.errorMessage.set(this.translocoService.translate("survey.import.error_select_file_first"));
       return;
     }
 
@@ -44,7 +48,7 @@ export class SurveyParticipantImportComponent {
     this.result.set(null);
 
     this.importService
-      .uploadParticipants(this.surveyId, file)
+      .uploadParticipants(this.surveyId()!, file)
       .subscribe({
         next: (res) => {
           this.result.set(res);
@@ -52,7 +56,7 @@ export class SurveyParticipantImportComponent {
         },
         error: () => {
           this.errorMessage.set(
-            'Der Import ist fehlgeschlagen. Bitte überprüfe die CSV-Datei und versuche es erneut.'
+            this.translocoService.translate("survey.import.error_message")
           );
           this.isUploading.set(false);
         }
