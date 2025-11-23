@@ -1,0 +1,87 @@
+<section aria-labelledby="participant-import-heading">
+  <h2 id="participant-import-heading">
+    Teilnehmende per CSV importieren
+  </h2>
+
+  <p>
+    Erwartetes CSV-Format:
+    <code>matriculationNumber;name;email</code> mit Kopfzeile.
+  </p>
+
+  <form (submit)="onSubmit($event)" novalidate>
+    <div>
+      <label for="csv-file">
+        CSV-Datei auswählen
+      </label>
+
+      <input
+        id="csv-file"
+        type="file"
+        accept=".csv,text/csv"
+        (change)="onFileSelected($event)"
+        aria-describedby="csv-file-help"
+      />
+
+      <p id="csv-file-help">
+        Bitte eine CSV-Datei mit Kopfzeile hochladen.
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="!selectedFile() || isUploading()"
+    >
+      @if (isUploading()) {
+        Import läuft…
+      } @else {
+        Import starten
+      }
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <p role="alert">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (result()) {
+    <section aria-label="Import-Ergebnis">
+      <h3>Import-Ergebnis</h3>
+
+      <p>
+        {{ result()!.successCount }} von
+        {{ result()!.totalRows }} Zeilen erfolgreich importiert.
+      </p>
+
+      @if (result()!.importedParticipants.length > 0) {
+        <div>
+          <h4>Importierte Teilnehmende</h4>
+          <ul>
+            @for (p of result()!.importedParticipants; track p.id) {
+              <li>
+                {{ p.name }}
+                ({{ p.matriculationNumber }})
+                – {{ p.email }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (result()!.errors.length > 0) {
+        <div>
+          <h4>Fehlerhafte Zeilen</h4>
+          <ul>
+            @for (err of result()!.errors; track err.lineNumber) {
+              <li>
+                Zeile {{ err.lineNumber }}:
+                {{ err.message }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </section>
+  }
+</section>
