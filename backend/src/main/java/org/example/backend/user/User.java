@@ -28,12 +28,11 @@ public class User {
     private String email;
     private String password;
 
+    @Column(unique = true)
+    private String matriculationNumber;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Survey> createdSurveys;
-
-    @ManyToMany(mappedBy = "participants")
-    private List<Survey> participatedSurveys = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPreference> groupPreferences = new ArrayList<>();
