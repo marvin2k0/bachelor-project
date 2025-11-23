@@ -13,10 +13,14 @@
       }
       </div>
     </div>
-    <div class="groups">
-
+    <div class="groups" cdkDropList (cdkDropListDropped)="drop($event)">
+      @for(group of groups(); track group.name) {
+        <app-group-display [group]="group" cdkDrag></app-group-display>
+      } @empty {
+        <p>{{ "entity_does_not_exist" | transloco: { entity: "survey.group.entity_pl" | transloco } }}</p>
+      }
     </div>
   </div>
 } @else {
-  <p>{{ "survey.does_not_exist" | transloco}}</p>
+  <p>{{ "entity_does_not_exist" | transloco: { entity: "survey.entity" | transloco } }}</p>
 }
