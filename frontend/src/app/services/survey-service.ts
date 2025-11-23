@@ -61,7 +61,7 @@ export class SurveyService {
     formData.append('file', file);
 
     return this.http.post<ParticipantImportResult>(
-      `${this.baseUrl}/${surveyId}/participants/import`,
+      `${this.baseUrl}${surveyId}/participants/import`,
       formData
     );
   }
