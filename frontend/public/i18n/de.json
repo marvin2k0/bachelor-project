@@ -7,6 +7,9 @@
   },
   "survey": {
     "entity": "Umfrage",
+    "create": "Umfrage erstellen",
+    "start_time": "Startzeit",
+    "end_time": "Endzeit",
     "open": "Geöffnet",
     "open_since": "Offen seit {{date}}",
     "open_until": "Offen bis {{date}}",
@@ -30,7 +33,9 @@
     },
     "group": {
       "entity": "Gruppe",
-      "entity_pl": "Gruppen"
+      "entity_pl": "Gruppen",
+      "group_count": "Anzahl der Gruppen"
+
     }
   },
   "date_format": "dd. MMM",

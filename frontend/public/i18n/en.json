@@ -7,6 +7,9 @@
   },
   "survey": {
     "entity": "Survey",
+    "create": "Create survey",
+    "start_time": "Start time",
+    "end_time": "End time",
     "open": "Open",
     "open_since": "Open since {{date}}",
     "open_until": "Open until {{date}}",
@@ -31,7 +34,8 @@
     },
     "group": {
       "entity": "Group",
-      "entity_pl": "Groups"
+      "entity_pl": "Groups",
+      "group_count": "Group count"
     }
   },
   "date_format": "MMM d",
