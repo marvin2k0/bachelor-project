@@ -82,3 +82,7 @@ h2 {
 button {
   color: var(--light);
 }
+
+app-modal.hidden {
+  display: none !important;
+}
