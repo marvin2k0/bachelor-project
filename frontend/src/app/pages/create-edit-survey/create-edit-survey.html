@@ -40,13 +40,15 @@
         <label>{{ "survey.settings.description" | transloco }}</label>
         <app-input-field formControlName="description"></app-input-field>
       </div>
-      <div class="form-group">
-        <label>{{ "survey.start_time" | transloco }}</label>
-        <input type="datetime-local" id="startTime" formControlName="startTime">
-      </div>
-      <div class="form-group">
-        <label>{{ "survey.end_time" | transloco }}</label>
-        <input type="datetime-local" id="endTime" formControlName="endTime">
+      <div class="times">
+        <div class="form-group">
+          <label>{{ "survey.start_time" | transloco }}</label>
+          <input type="date" id="startTime" formControlName="startTime">
+        </div>
+        <div class="form-group">
+          <label>{{ "survey.end_time" | transloco }}</label>
+          <input type="date" id="endTime" formControlName="endTime">
+        </div>
       </div>
       <div class="form-group">
         <label>{{ "survey.group.group_count" | transloco }}</label>

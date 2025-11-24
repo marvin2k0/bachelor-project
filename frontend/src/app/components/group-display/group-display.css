@@ -1,0 +1,20 @@
+.group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 3.5rem;
+  background-color: var(--primary);
+  padding-inline: 1rem;
+  gap: .75rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.group_name {
+  font-weight: bold;
+}
+
+.icon {
+  width: 24px;
+  fill: var(--primary-light);
+}

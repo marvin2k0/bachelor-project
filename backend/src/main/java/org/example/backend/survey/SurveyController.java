@@ -39,6 +39,7 @@ public class SurveyController {
         final Survey survey = Survey.builder()
                 .name(surveyDto.name())
                 .startTime(surveyDto.startTime())
+                .description(surveyDto.description())
                 .endTime(surveyDto.endTime())
                 .build();
 
@@ -46,7 +47,7 @@ public class SurveyController {
 
         for (int i = 0; i < surveyDto.groupCount(); i++) {
             final Group group = Group.builder()
-                    .name("T" + (i<10 ? "0" : "") + i+1)
+                    .name("T" + (i<10 ? "0" : "") + (i+1))
                     .capacity(6)
                     .survey(survey)
                     .build();

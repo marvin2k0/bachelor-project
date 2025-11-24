@@ -21,6 +21,5 @@ export class AppPage implements OnInit{
 
   ngOnInit() {
     this.service.loadSurveys();
-    this.modalService.show({title: "lol", text: "ganz wichtige nachricht"})
   }
 }

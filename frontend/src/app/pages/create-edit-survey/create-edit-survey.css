@@ -1,0 +1,26 @@
+h1 {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.times {
+  display: flex;
+}
+
+.times .form-group {
+  flex: 1;
+}
+
+.times input {
+  width: 45%;
+}
