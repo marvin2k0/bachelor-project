@@ -14,7 +14,7 @@
       </div>
       <div class="form-group">
         <label>{{ "survey.settings.description" | transloco }}</label>
-        <app-input-field></app-input-field>
+        <app-input-field formControlName="description"></app-input-field>
       </div>
       <div class="form-group">
         <label>{{ "survey.settings.import_participants" | transloco }}</label>
@@ -25,5 +25,34 @@
     </form>
   </div>
 } @else {
-  <p>{{ "survey.does_not_exist" | transloco}}</p>
+  <div class="wrapper">
+    <div class="header">
+      <h1>{{ "survey.create" | transloco }}</h1>
+      <span></span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>{{ "survey.settings.name" | transloco }}</label>
+        <app-input-field formControlName="name"></app-input-field>
+      </div>
+      <div class="form-group">
+        <label>{{ "survey.settings.description" | transloco }}</label>
+        <app-input-field formControlName="description"></app-input-field>
+      </div>
+      <div class="form-group">
+        <label>{{ "survey.start_time" | transloco }}</label>
+        <input type="datetime-local" id="startTime" formControlName="startTime">
+      </div>
+      <div class="form-group">
+        <label>{{ "survey.end_time" | transloco }}</label>
+        <input type="datetime-local" id="endTime" formControlName="endTime">
+      </div>
+      <div class="form-group">
+        <label>{{ "survey.group.group_count" | transloco }}</label>
+        <input type="number" min="1" id="groupCount" formControlName="groupCount">
+      </div>
+      <app-button label="{{ 'save' | transloco }}" color="purple"></app-button>
+    </form>
+  </div>
 }
