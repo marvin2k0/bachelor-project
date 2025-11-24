@@ -16,7 +16,6 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    /*
     @Bean
     CommandLineRunner init(SurveyService surveyService) {
         return args -> {
@@ -36,6 +35,4 @@ public class BackendApplication {
                     .build());
         };
     }
-     */
-
 }
