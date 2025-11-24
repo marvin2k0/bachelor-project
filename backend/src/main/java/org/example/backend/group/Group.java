@@ -1,11 +1,8 @@
 package org.example.backend.group;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.backend.groupPreference.GroupPreference;
 import org.example.backend.survey.Survey;
 import org.example.backend.user.User;
@@ -30,12 +27,15 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
+    @JsonIgnore
     private Survey survey;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(
             name = "group_members",
             joinColumns = @JoinColumn(name = "group_id"),

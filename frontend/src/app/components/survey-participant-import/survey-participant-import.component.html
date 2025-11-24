@@ -1,0 +1,43 @@
+ <form (submit)="onSubmit($event)" novalidate>
+    <div>
+      <input
+        id="csv-file"
+        type="file"
+        accept=".csv,text/csv"
+        (change)="onFileSelected($event)"
+        aria-describedby="csv-file-help"
+      />
+    </div>
+    <app-button label="{{isUploading() ? ('survey.import.import_running' | transloco)  :  ('survey.import.import_start' | transloco) }}" color="purple"></app-button>
+  </form>
+
+  @if (errorMessage()) {
+    <p role="alert">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (result()) {
+    <section aria-label="Import-Ergebnis">
+      <h3>{{ "survey.import.import_result" | transloco }}</h3>
+
+      <p>
+        {{ "survey.import.success_message" | transloco: { count: result()!.successCount, total: result()!.totalRows } }}
+      </p>
+
+      @if (result()!.errors.length > 0) {
+        <div>
+          <h4>{{ "survey.import.error_wrong_lines" | transloco }}</h4>
+          <ul>
+            @for (err of result()!.errors; track err.lineNumber) {
+              <li>
+                {{ err.lineNumber }}:
+                {{ err.message }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </section>
+  }
+

@@ -1,0 +1,35 @@
+@let s = survey();
+
+@if (s) {
+  <div class="survey">
+    <div class="header">
+      <h2>{{ s.name | titlecase }}</h2>
+      <div class="end-time">
+        @if (s.endTime) {
+          <span>{{ "survey.open_until" | transloco: {"date": s.endTime | date: ("date_format" | transloco)} }}</span>
+        } @else {
+          <span>{{ "survey.open" | transloco }}</span>
+        }
+      </div>
+    </div>
+
+    @if (s.description) {
+      <div class="description">
+        <h3>{{ "survey.settings.description" | transloco }}</h3>
+        <p>{{ s.description }}</p>
+      </div>
+    }
+
+    <h3>{{ "survey.group.entity_pl" | transloco }}</h3>
+
+    <div class="groups" cdkDropList (cdkDropListDropped)="drop($event)">
+      @for (group of groups(); track group.name) {
+        <app-group-display [group]="group" cdkDrag></app-group-display>
+      } @empty {
+        <p>{{ "entity_does_not_exist" | transloco: {entity: "survey.group.entity_pl" | transloco} }}</p>
+      }
+    </div>
+  </div>
+} @else {
+  <p>{{ "entity_does_not_exist" | transloco: {entity: "survey.entity" | transloco} }}</p>
+}

@@ -6,11 +6,39 @@
     "logout": "Logout"
   },
   "survey": {
+    "entity": "Survey",
+    "create": "Create survey",
+    "start_time": "Start time",
+    "end_time": "End time",
     "open": "Open",
     "open_since": "Open since {{date}}",
     "open_until": "Open until {{date}}",
     "all_surveys_header": "All surveys",
-    "all_survey_description": "Here you can see your surveys"
+    "all_survey_description": "Here you can see your surveys",
+    "does_not_exist": "This survey does not exist",
+    "no_surveys_found": "There are currently no surveys.",
+    "settings": {
+      "edit_title": "Edit survey",
+      "name": "Name",
+      "description": "Description",
+      "import_participants": "Import participants"
+    },
+    "import": {
+      "import_result": "Import Result",
+      "import_running": "Import running",
+      "import_start": "Start import",
+      "error_select_file_first": "Please select a file first",
+      "error_wrong_lines": "Corrupted lines:",
+      "error_message": "Import failed. Please check the CSV file and try again.",
+      "success_message": "{{count}} of {{total}} participants successfully added"
+    },
+    "group": {
+      "entity": "Group",
+      "entity_pl": "Groups",
+      "group_count": "Group count"
+    }
   },
-  "date_format": "MMM d"
+  "date_format": "MMM d",
+  "save": "Save",
+  "entity_does_not_exist": "{{entity}} not found"
 }

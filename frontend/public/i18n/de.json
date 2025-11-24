@@ -6,11 +6,38 @@
     "logout": "Abmelden"
   },
   "survey": {
+    "entity": "Umfrage",
+    "create": "Umfrage erstellen",
+    "start_time": "Startzeit",
+    "end_time": "Endzeit",
     "open": "Geöffnet",
     "open_since": "Offen seit {{date}}",
     "open_until": "Offen bis {{date}}",
     "all_surveys_header": "Alle Umfragen",
-    "all_survey_description": "Hier siehst du deine Umfragen"
+    "all_survey_description": "Hier siehst du deine Umfragen",
+    "no_surveys_found": "Momentan gibt es keine Umfragen.",
+    "settings": {
+      "edit_title": "Umfrage bearbeiten",
+      "name": "Name",
+      "description": "Beschreibung",
+      "import_participants": "Teilnehmer importieren"
+    },
+    "import": {
+      "import_result": "Import-Ergebnis",
+      "import_running": "Import läuft",
+      "import_start": "Import starten",
+      "error_select_file_first": "Bitte zuerst eine CSV-Datei auswählen.",
+      "error_wrong_lines": "Fehlerhafte Zeilen",
+      "error_message": "Der Import ist fehlgeschlagen. Bitte überprüfe die CSV-Datei und versuche es erneut.",
+      "success_message": "{{count}} von {{total}} Teilnehmer erfolgreich hinzugefügt"
+    },
+    "group": {
+      "entity": "Gruppe",
+      "entity_pl": "Gruppen",
+      "group_count": "Anzahl der Gruppen"
+    }
   },
-  "date_format": "dd. MMM"
+  "date_format": "dd. MMM",
+  "save": "Speichern",
+  "entity_does_not_exist": "{{entity}} nicht gefunden"
 }

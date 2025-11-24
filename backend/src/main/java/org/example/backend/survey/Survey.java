@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.backend.user.User;
 import org.example.backend.group.Group;
-import org.example.backend.groupPreference.GroupPreference;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class Survey {
 
     @Column(unique = true)
     private String name;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,13 +43,12 @@ public class Survey {
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Builder.Default
     private List<User> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Group> groups = new ArrayList<>();
-
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     public boolean isActive() {
         return isActive(LocalDateTime.now());

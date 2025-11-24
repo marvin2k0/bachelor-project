@@ -20,17 +20,17 @@ public class BackendApplication {
     CommandLineRunner init(SurveyService surveyService) {
         return args -> {
             surveyService.saveSurvey(Survey.builder()
-                    .name("SEP")
+                    .name("SEP.2")
                     .startTime(LocalDateTime.now())
                     .endTime(LocalDateTime.now().plusWeeks(1))
                     .build());
 
             surveyService.saveSurvey(Survey.builder()
-                    .name("MCI")
+                    .name("MCI.2")
                     .endTime(LocalDateTime.now().plusWeeks(1))
                     .build());
             surveyService.saveSurvey(Survey.builder()
-                    .name("REM")
+                    .name("REM.2")
                     .startTime(LocalDateTime.now())
                     .build());
         };

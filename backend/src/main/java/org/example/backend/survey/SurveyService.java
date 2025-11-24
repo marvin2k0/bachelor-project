@@ -2,17 +2,33 @@ package org.example.backend.survey;
 
 import lombok.RequiredArgsConstructor;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.example.backend.group.Group;
+import org.example.backend.survey.dto.ParticipantDto;
+import org.example.backend.survey.dto.ParticipantImportErrorDto;
+import org.example.backend.survey.dto.ParticipantImportResultDto;
+import org.example.backend.survey.dto.StudentCsvRowDto;
+import org.example.backend.user.User;
+import org.example.backend.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class SurveyService {
     private final SurveyRepository repository;
+    private final UserRepository userRepository;
 
     public List<Survey> getAllSurveys() {
         return repository.findAll();
@@ -56,5 +72,103 @@ public class SurveyService {
         entityFromDb.setId(id);
         this.repository.save(entityFromDb);
         return entityFromDb;
+    }
+
+    public ParticipantImportResultDto importParticipantsFromCsv(Long surveyId, MultipartFile file) {
+        Survey survey = repository.findById(surveyId)
+                .orElseThrow(() -> new IllegalArgumentException("Survey not found: " + surveyId));
+
+        List<ParticipantDto> imported = new ArrayList<>();
+        List<ParticipantImportErrorDto> errors = new ArrayList<>();
+
+        int totalRows = 0;
+        int successCount = 0;
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+
+            CSVParser parser = CSVFormat.DEFAULT
+                    .withDelimiter(';')
+                    .withFirstRecordAsHeader()
+                    .parse(reader);
+
+            for (CSVRecord record : parser) {
+                totalRows++;
+                int lineNumber = (int) record.getRecordNumber() + 1;
+
+                try {
+                    StudentCsvRowDto rowDto = mapRecordToDto(record, lineNumber);
+
+                    User user = findOrCreateUser(rowDto);
+
+                    if (!survey.getParticipants().contains(user)) {
+                        survey.getParticipants().add(user);
+                    }
+
+                    ParticipantDto participantDto = new ParticipantDto(
+                            user.getId(),
+                            user.getName(),
+                            user.getMatriculationNumber(),
+                            user.getEmail()
+                    );
+                    imported.add(participantDto);
+                    successCount++;
+
+                } catch (Exception e) {
+                    errors.add(new ParticipantImportErrorDto(
+                            lineNumber,
+                            e.getMessage(),
+                            record.toString()
+                    ));
+                }
+            }
+
+        } catch (Exception ex) {
+            throw new RuntimeException("Fehler beim Lesen der CSV-Datei", ex);
+        }
+
+        repository.save(survey);
+
+        return new ParticipantImportResultDto(
+                surveyId,
+                totalRows,
+                successCount,
+                errors.size(),
+                imported,
+                errors
+        );
+    }
+
+    private StudentCsvRowDto mapRecordToDto(CSVRecord record, int lineNumber) {
+        String matriculationNumber = record.get("matriculationNumber").trim();
+        String name = record.get("name").trim();
+        String email = record.get("email").trim();
+
+        if (matriculationNumber.isEmpty()) {
+            throw new IllegalArgumentException("Matrikelnummer fehlt");
+        }
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Name fehlt");
+        }
+
+        return new StudentCsvRowDto(
+                matriculationNumber,
+                name,
+                email,
+                lineNumber
+        );
+    }
+
+    private User findOrCreateUser(StudentCsvRowDto row) {
+        return userRepository.findByMatriculationNumber(row.matriculationNumber())
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .name(row.name())
+                            .email(row.email())
+                            .matriculationNumber(row.matriculationNumber())
+                            .password(null)
+                            .build();
+                    return userRepository.save(newUser);
+                });
     }
 }
