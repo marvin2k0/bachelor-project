@@ -31,9 +31,11 @@ public class Group {
     private Survey survey;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     @ManyToMany
+    @Builder.Default
     @JoinTable(
             name = "group_members",
             joinColumns = @JoinColumn(name = "group_id"),

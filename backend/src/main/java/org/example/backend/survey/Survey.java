@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.example.backend.user.User;
 import org.example.backend.group.Group;
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +43,11 @@ public class Survey {
             joinColumns = @JoinColumn(name = "survey_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Builder.Default
     private List<User> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Group> groups = new ArrayList<>();
 
     public boolean isActive() {
