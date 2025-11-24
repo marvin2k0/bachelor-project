@@ -1,9 +1,9 @@
-<div class="survey" routerLink="/survey/{{survey().id}}">
-  <div class="image_container">
+<div class="survey">
+  <div class="image_container" routerLink="/survey/{{survey().id}}">
     <img ngSrc="/img/survey_placeholder_cover.png" alt="" fill>
   </div>
   <div class="content">
-    <div class="description">
+    <div class="description" routerLink="/survey/{{survey().id}}">
       <h3>{{ survey().name }}</h3>
       <div class="dates">
         @if (survey().startTime && !survey().endTime) {

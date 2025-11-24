@@ -12,7 +12,7 @@ export interface ModalSettings {
 export class ModalService {
   private readonly _title = signal("")
   private readonly _text = signal("")
-  private readonly _visible = signal<boolean>(true)
+  private readonly _visible = signal<boolean>(false)
   private readonly _design = signal<"red" | "purple">("purple")
 
   title = this._title.asReadonly()

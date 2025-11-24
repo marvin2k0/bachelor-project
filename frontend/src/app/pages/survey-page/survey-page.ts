@@ -5,7 +5,7 @@ import {map} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {SurveyService} from '../../services/survey-service';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {DatePipe} from '@angular/common';
+import {DatePipe, TitleCasePipe} from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {GroupDisplay} from '../../components/group-display/group-display';
 
@@ -16,7 +16,8 @@ import {GroupDisplay} from '../../components/group-display/group-display';
     DatePipe,
     CdkDropList,
     GroupDisplay,
-    CdkDrag
+    CdkDrag,
+    TitleCasePipe
   ],
   templateUrl: './survey-page.html',
   styleUrl: './survey-page.css',
