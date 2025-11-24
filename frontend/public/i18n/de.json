@@ -20,7 +20,9 @@
       "edit_title": "Umfrage bearbeiten",
       "name": "Name",
       "description": "Beschreibung",
-      "import_participants": "Teilnehmer importieren"
+      "import_participants": "Teilnehmer importieren",
+      "delete_header": "Bist du sicher?",
+      "delete_body": "Möchtest du die Umfrage {{survey}} wirklich löschen?"
     },
     "import": {
       "import_result": "Import-Ergebnis",
@@ -39,5 +41,7 @@
   },
   "date_format": "dd. MMM",
   "save": "Speichern",
-  "entity_does_not_exist": "{{entity}} nicht gefunden"
+  "entity_does_not_exist": "{{entity}} nicht gefunden",
+  "confirm": "Bestätigen",
+  "deny": "Abbrechen"
 }

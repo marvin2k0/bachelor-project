@@ -16,22 +16,26 @@ export class ModalService {
   private readonly _text = signal("")
   private readonly _visible = signal<boolean>(false)
   private readonly _design = signal<"red" | "purple">("purple")
-  private readonly _onDeny = signal(() => this.hide())
-  private readonly _onAccept = signal(() => {
-    console.log("accept")
-  })
 
   title = this._title.asReadonly()
   text = this._text.asReadonly()
   visible = this._visible.asReadonly()
   design = this._design.asReadonly()
-  onDeny = this._onDeny.asReadonly()
-  onAccept = this._onAccept.asReadonly()
+  onDeny = signal(() => this.hide())
+  onAccept = signal(() => this.hide())
 
   show(settings: ModalSettings) {
     this._title.set(settings.title)
     this._text.set(settings.text)
     this._design.set(settings.design ?? "purple")
+
+    if (settings.onAccept)
+      this.onAccept.set(settings.onAccept)
+
+    if (settings.onDeny)
+      this.onDeny.set(settings.onDeny)
+
+    this._visible.set(true)
   }
 
   hide() {

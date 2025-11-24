@@ -21,7 +21,9 @@
       "edit_title": "Edit survey",
       "name": "Name",
       "description": "Description",
-      "import_participants": "Import participants"
+      "import_participants": "Import participants",
+      "delete_header": "Are you sure",
+      "delete_body": "Are you sure you want to delete the survey {{survey}}"
     },
     "import": {
       "import_result": "Import Result",
@@ -40,5 +42,7 @@
   },
   "date_format": "MMM d",
   "save": "Save",
-  "entity_does_not_exist": "{{entity}} not found"
+  "entity_does_not_exist": "{{entity}} not found",
+  "confirm": "Confirm",
+  "deny": "Cancel"
 }
