@@ -42,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'survey/:id',
         loadComponent: () => import('./pages/survey-page/survey-page')
+      },
+      {
+        path: 'create',
+        loadComponent: () => import('./pages/create-edit-survey/create-edit-survey')
       }
     ]
   },
