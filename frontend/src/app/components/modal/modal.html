@@ -10,7 +10,7 @@
   <p>{{ service.text() }}</p>
 
   <div class="button_actions">
-    <app-button label="Cancel" color="white" (click)="service.onDeny()()"></app-button>
-    <app-button label="Confirm" [color]="service.design()" (click)="service.onAccept()()"></app-button>
+    <app-button label="{{ 'deny' | transloco }}" color="white" (click)="service.onDeny()()"></app-button>
+    <app-button label="{{ 'confirm' | transloco }}" [color]="service.design()" (click)="service.onAccept()()"></app-button>
   </div>
 </div>

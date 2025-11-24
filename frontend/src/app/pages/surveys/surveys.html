@@ -6,7 +6,7 @@
 
   <div class="surveys">
     @for (survey of this.service.surveys(); track survey.name) {
-      <app-survey-display [survey]="survey" (onDelete)="delete($event)"></app-survey-display>
+      <app-survey-display [survey]="survey" (onDelete)="onConfirmDeletion($event)"></app-survey-display>
     } @empty {
       <span>{{ "survey.no_surveys_found" | transloco }}</span>
     }
