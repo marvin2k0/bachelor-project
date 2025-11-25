@@ -6,6 +6,6 @@ export interface Survey {
   description?: string,
   startTime: Date | null,
   endTime: Date | null
-  groups: Group[]
-  groupCount: number
+  groups?: Group[]
+  groupCount?: number
 }

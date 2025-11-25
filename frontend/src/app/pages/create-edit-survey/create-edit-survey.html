@@ -7,7 +7,7 @@
       <span>{{ s.name }}</span>
     </div>
 
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmitUpdate()">
       <div class="form-group">
         <label>{{ "survey.settings.name" | transloco }}</label>
         <app-input-field formControlName="name"></app-input-field>
@@ -15,6 +15,16 @@
       <div class="form-group">
         <label>{{ "survey.settings.description" | transloco }}</label>
         <app-input-field formControlName="description"></app-input-field>
+      </div>
+      <div class="times">
+        <div class="form-group">
+          <label>{{ "survey.start_time" | transloco }}</label>
+          <input type="date" id="startTime" formControlName="startTime">
+        </div>
+        <div class="form-group">
+          <label>{{ "survey.end_time" | transloco }}</label>
+          <input type="date" id="endTime" formControlName="endTime">
+        </div>
       </div>
       <div class="form-group">
         <label>{{ "survey.settings.import_participants" | transloco }}</label>
@@ -30,7 +40,7 @@
       <h1>{{ "survey.create" | transloco }}</h1>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmitCreate()">
       <div class="form-group">
         <label>{{ "survey.settings.name" | transloco }}</label>
         <app-input-field formControlName="name"></app-input-field>

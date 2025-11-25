@@ -29,6 +29,10 @@ export class SurveyService {
     );
   }
 
+  update(survey: Survey) {
+    return this.http.put<Survey>(`${this.baseUrl}${survey.id!}`, survey)
+  }
+
   delete(survey: Survey) {
     return this.http.delete(`${this.baseUrl}${survey.id}`).pipe(
       tap(() => {

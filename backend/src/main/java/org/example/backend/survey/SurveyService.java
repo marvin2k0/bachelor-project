@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.example.backend.group.Group;
-import org.example.backend.survey.dto.ParticipantDto;
-import org.example.backend.survey.dto.ParticipantImportErrorDto;
-import org.example.backend.survey.dto.ParticipantImportResultDto;
-import org.example.backend.survey.dto.StudentCsvRowDto;
+import org.example.backend.survey.dto.*;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,14 +61,16 @@ public class SurveyService {
         this.repository.deleteById(id);
     }
 
-    public Survey updateSurvey(Long id, Survey entity) {
-
-        final Survey entityFromDb = repository.findById(id)
+    public Survey updateSurvey(Long id, SurveyUpdateDto entity) {
+        final Survey survey = repository.findById(id)
                 .orElseThrow(() -> new UnsupportedOperationException("Survey not found for this id :: " + id));
 
-        entityFromDb.setId(id);
-        this.repository.save(entityFromDb);
-        return entityFromDb;
+        survey.setName(entity.name());
+        survey.setDescription(entity.description());
+        survey.setStartTime(entity.startTime());
+        survey.setEndTime(entity.endTime());
+
+        return this.repository.save(survey);
     }
 
     public ParticipantImportResultDto importParticipantsFromCsv(Long surveyId, MultipartFile file) {
@@ -87,9 +86,11 @@ public class SurveyService {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
 
-            CSVParser parser = CSVFormat.DEFAULT
-                    .withDelimiter(';')
-                    .withFirstRecordAsHeader()
+            CSVParser parser = CSVFormat.Builder.create()
+                    .setDelimiter(',')
+                    .setHeader().setSkipHeaderRecord(true)
+                    .setIgnoreSurroundingSpaces(true)
+                    .build()
                     .parse(reader);
 
             for (CSVRecord record : parser) {
@@ -140,9 +141,11 @@ public class SurveyService {
     }
 
     private StudentCsvRowDto mapRecordToDto(CSVRecord record, int lineNumber) {
-        String matriculationNumber = record.get("matriculationNumber").trim();
-        String name = record.get("name").trim();
-        String email = record.get("email").trim();
+        String matriculationNumber = record.get("Matrikelnummer").trim();
+        String vorname = record.get("Vorname").trim();
+        String nachname = record.get("Nachname").trim();
+        String name = (vorname + " " + nachname).trim();
+        String email = record.get("E-Mail-Adresse").trim();
 
         if (matriculationNumber.isEmpty()) {
             throw new IllegalArgumentException("Matrikelnummer fehlt");

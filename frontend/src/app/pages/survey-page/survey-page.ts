@@ -46,13 +46,13 @@ export default class SurveyPage {
   protected readonly groups = computed(() => this.survey()!.groups)
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.groups(), event.previousIndex, event.currentIndex)
+    moveItemInArray(this.groups()!, event.previousIndex, event.currentIndex)
     this.assignPriorities()
   }
 
   private assignPriorities() {
-    for (let i = 0; i < this.groups().length; i++) {
-      console.log(`Priorität ${i + 1} = ${this.groups()[i].name}`)
+    for (let i = 0; i < this.groups()!.length; i++) {
+      console.log(`Priorität ${i + 1} = ${this.groups()![i].name}`)
     }
   }
 }
