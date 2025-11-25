@@ -7,5 +7,5 @@ export interface Survey {
   startTime: Date | null,
   endTime: Date | null
   groups: Group[]
-  groupCount: number
+  groupCount?: number
 }
