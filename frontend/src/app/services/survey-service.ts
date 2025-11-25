@@ -38,6 +38,8 @@ export class SurveyService {
   }
 
   loadSurveys() {
+    this._surveys.set([])
+
     this.http.get<Survey[]>(this.baseUrl).subscribe({
       next: data => {
         const surveyData = data.map(survey => ({
