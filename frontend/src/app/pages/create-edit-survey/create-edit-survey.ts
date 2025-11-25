@@ -71,8 +71,20 @@ export default class CreateEditSurvey {
 
   protected onSubmitCreate() {
     if (this.form.invalid) return;
-    this.surveyService.create({name: this.form.value.name!, description: this.form.value.description!, startTime: new Date(this.form.value.startTime!), endTime: new Date(this.form.value.endTime!), groups: [], groupCount: this.form.value.groupCount!})
-      .subscribe({next: () => this.router.navigate(["surveys"])})
+    this.surveyService.create({
+      name: this.form.value.name!,
+      description: this.form.value.description!,
+      startTime: new Date(this.form.value.startTime!),
+      endTime: new Date(this.form.value.endTime!),
+      groups: [],
+      groupCount: this.form.value.groupCount!
+    })
+      .subscribe({
+        next: () => {
+          this.surveyService.loadSurveys()
+          this.router.navigate(["surveys"])
+        }
+      })
   }
 
   protected onSubmitUpdate() {
