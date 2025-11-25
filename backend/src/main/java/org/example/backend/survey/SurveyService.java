@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.example.backend.group.Group;
 import org.example.backend.survey.dto.*;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
