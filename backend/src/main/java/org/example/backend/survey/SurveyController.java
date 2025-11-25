@@ -6,6 +6,7 @@ import org.example.backend.group.Group;
 import org.example.backend.group.GroupService;
 import org.example.backend.survey.dto.ParticipantImportResultDto;
 import org.example.backend.survey.dto.SurveyCreationDto;
+import org.example.backend.survey.dto.SurveyUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +48,7 @@ public class SurveyController {
 
         for (int i = 0; i < surveyDto.groupCount(); i++) {
             final Group group = Group.builder()
-                    .name("T" + (i<10 ? "0" : "") + (i+1))
+                    .name("T" + (i<9 ? "0" : "") + (i+1))
                     .capacity(6)
                     .survey(survey)
                     .build();
@@ -59,9 +60,9 @@ public class SurveyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Survey> updateSurvey(@PathVariable Long id, @RequestBody Survey survey) {
-        System.out.println(survey);
-        return ResponseEntity.ok(service.updateSurvey(id, survey));
+    public ResponseEntity<Survey> updateSurvey(@PathVariable Long id, @RequestBody SurveyUpdateDto surveyDto) {
+        System.out.println(surveyDto);
+        return ResponseEntity.ok(service.updateSurvey(id, surveyDto));
     }
 
     @DeleteMapping("/{id}")

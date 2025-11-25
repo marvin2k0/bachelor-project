@@ -63,6 +63,7 @@ export default class CreateEditSurvey {
         this.form.patchValue({
           name: s.name,
           description: s.description,
+          startTime: this.formatDateForInput(s.startTime),
           endTime: this.formatDateForInput(s.endTime),
         });
       }
@@ -89,11 +90,19 @@ export default class CreateEditSurvey {
 
   protected onSubmitUpdate() {
     if (this.form.invalid) return;
-    this.surveyService.update({id: this.id()!, name: this.form.value.name!, description: this.form.value.description!, startTime: new Date(this.form.value.startTime!), endTime: new Date(this.form.value.endTime!), groups: []})
-      .subscribe({next: () => {
+    this.surveyService.update({
+      id: this.id()!,
+      name: this.form.value.name!,
+      description: this.form.value.description!,
+      startTime: new Date(this.form.value.startTime!),
+      endTime: new Date(this.form.value.endTime!)
+    })
+      .subscribe({
+        next: () => {
           this.surveyService.loadSurveys()
           this.router.navigate(["survey/" + this.id()!]).then()
-        }})
+        }
+      })
   }
 
   timeOrderValidator(control: AbstractControl) {
@@ -105,7 +114,7 @@ export default class CreateEditSurvey {
     }
 
     if (startTime > endTime) {
-      return { timeOrder: true };
+      return {timeOrder: true};
     }
     return null;
   }
