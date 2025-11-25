@@ -65,13 +65,10 @@ public class SurveyService {
     }
 
     public Survey updateSurvey(Long id, Survey entity) {
-
-        final Survey entityFromDb = repository.findById(id)
+        repository.findById(id)
                 .orElseThrow(() -> new UnsupportedOperationException("Survey not found for this id :: " + id));
 
-        entityFromDb.setId(id);
-        this.repository.save(entityFromDb);
-        return entityFromDb;
+        return this.repository.save(entity);
     }
 
     public ParticipantImportResultDto importParticipantsFromCsv(Long surveyId, MultipartFile file) {

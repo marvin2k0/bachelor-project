@@ -60,6 +60,7 @@ public class SurveyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Survey> updateSurvey(@PathVariable Long id, @RequestBody Survey survey) {
+        System.out.println(survey);
         return ResponseEntity.ok(service.updateSurvey(id, survey));
     }
 
