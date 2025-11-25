@@ -81,9 +81,9 @@ public class SurveyTests {
         service.saveSurvey(survey);
 
         String csvContent = """
-            matriculationNumber;name;email
-            123456;Anna;anna@example.com
-            234567;Ben;ben@example.com
+            Matrikelnummer,Vorname,Nachname,E-Mail-Adresse
+            123456,Anna,Keck,anna@example.com
+            234567,Ben,Blümchen,ben@example.com
             """;
 
         MockMultipartFile file = new MockMultipartFile(
@@ -102,8 +102,8 @@ public class SurveyTests {
 
         assertEquals(2, updated.getParticipants().size());
         assertTrue(updated.getParticipants().stream()
-                .anyMatch(u -> "Anna".equals(u.getName())));
+                .anyMatch(u -> "Anna Keck".equals(u.getName())));
         assertTrue(updated.getParticipants().stream()
-                .anyMatch(u -> "Ben".equals(u.getName())));
+                .anyMatch(u -> "Ben Blümchen".equals(u.getName())));
     }
 }
