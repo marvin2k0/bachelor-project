@@ -24,7 +24,6 @@ export class InputField implements ControlValueAccessor {
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value
-    console.log(value)
     this.value.set(value)
     this._onChange(value)
     this._onChange(value);
