@@ -64,6 +64,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.optaplanner</groupId>
+            <artifactId>optaplanner-spring-boot-starter</artifactId>
+            <version>9.44.0.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
