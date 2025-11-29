@@ -10,7 +10,8 @@ public class AllocationConstraintProvider implements ConstraintProvider {
     @Override
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[] {
-                groupCapacity(constraintFactory)
+                groupCapacity(constraintFactory),
+                maximizePriorityFulfillment(constraintFactory)
         };
     }
 
@@ -19,7 +20,16 @@ public class AllocationConstraintProvider implements ConstraintProvider {
                 .filter(assignment -> assignment.getAssignedGroup() != null)
                 .groupBy(GroupAssignment::getAssignedGroup, ConstraintCollectors.count())
                 .filter((group, count) -> count > group.getCapacity())
-                .penalize(HardSoftScore.ONE_HARD)
+                .penalize(HardSoftScore.ONE_HARD, (group, count) -> count - group.getCapacity())
                 .asConstraint("Group capacity exceeded");
+    }
+
+    public Constraint maximizePriorityFulfillment(ConstraintFactory constraintFactory) {
+        return constraintFactory.forEach(GroupAssignment.class)
+                .filter(assignment -> assignment.getAssignedGroup() != null)
+                .filter(assignment -> assignment.getPriorityForGroup(assignment.getAssignedGroup()) != null)
+                .penalize(HardSoftScore.ONE_SOFT,
+                        assignment -> assignment.getPriorityForGroup(assignment.getAssignedGroup()))
+                .asConstraint("Maximize priority fulfillment");
     }
 }

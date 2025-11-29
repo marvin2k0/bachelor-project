@@ -32,4 +32,15 @@ public class GroupAssignment {
         this.id = id;
         this.preferences = preferences;
     }
+
+    public Integer getPriorityForGroup(Group group) {
+        if (group == null || preferences == null)
+            return null;
+
+        return preferences.stream()
+                .filter(pref -> pref.getGroup().getId().equals(group.getId()))
+                .map(GroupPreference::getPriority)
+                .findFirst()
+                .orElse(null);
+    }
 }
