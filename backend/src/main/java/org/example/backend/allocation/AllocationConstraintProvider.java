@@ -32,4 +32,12 @@ public class AllocationConstraintProvider implements ConstraintProvider {
                         assignment -> assignment.getPriorityForGroup(assignment.getAssignedGroup()))
                 .asConstraint("Maximize priority fulfillment");
     }
+
+    public Constraint penalizeUnpreferredAssignments(ConstraintFactory constraintFactory) {
+        return constraintFactory.forEach(GroupAssignment.class)
+                .filter(assignment -> assignment.getAssignedGroup() != null)
+                .filter(assignment -> assignment.getPriorityForGroup(assignment.getAssignedGroup()) == null)
+                .penalize(HardSoftScore.ofSoft(50))
+                .asConstraint("Penalize unpreferred assignments");
+    }
 }
