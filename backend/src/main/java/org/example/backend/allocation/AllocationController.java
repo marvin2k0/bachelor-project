@@ -2,10 +2,11 @@ package org.example.backend.allocation;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.allocation.dto.AllocationResponse;
-import org.example.backend.allocation.dto.AllocationResult;
+import org.example.backend.allocation.dto.AllocationResultDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -36,8 +37,8 @@ public class AllocationController {
     }
 
     @GetMapping("/surveys/{surveyId}/result")
-    public ResponseEntity<AllocationResult> getResult(@PathVariable long surveyId) {
-        AllocationResult result = allocationService.getResult(surveyId);
+    public ResponseEntity<AllocationResultDto> getResult(@PathVariable long surveyId, @RequestParam(required = false, defaultValue = "name,matriculationNumber") List<String> fields) {
+        final AllocationResultDto result = allocationService.getResult(surveyId, fields);
         return ResponseEntity.ok(result);
     }
 }

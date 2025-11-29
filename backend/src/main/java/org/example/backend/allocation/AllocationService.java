@@ -2,7 +2,7 @@ package org.example.backend.allocation;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.backend.allocation.dto.AllocationResult;
+import org.example.backend.allocation.dto.AllocationResultDto;
 import org.example.backend.group.Group;
 import org.example.backend.group.GroupRepository;
 import org.example.backend.groupPreference.GroupPreference;
@@ -14,10 +14,8 @@ import org.optaplanner.core.api.solver.SolverJob;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -79,21 +77,45 @@ public class AllocationService {
         }
     }
 
-    public AllocationResult getResult(Long surveyId) {
+    public AllocationResultDto getResult(Long surveyId, List<String> fields) {
         final Survey survey = surveyService.getSurveyById(surveyId);
 
         if (survey == null)
             throw new UnsupportedOperationException("Survey not found id:" + surveyId);
 
-        List<Group> groups = survey.getGroups();
-        Map<Long, List<User>> groupAssignments = new HashMap<>();
-        List<User> unassigned = new ArrayList<>(survey.getParticipants());
+        final List<Group> groups = survey.getGroups();
+        final Map<String, List<Map<String, Object>>> groupAssignments = new LinkedHashMap<>();
+        final List<User> unassigned = new ArrayList<>(survey.getParticipants());
 
         for (Group group : groups) {
-            groupAssignments.put(group.getId(), new ArrayList<>(group.getMembers()));
+            final List<Map<String, Object>> students = group.getMembers().stream()
+                    .map(user -> extractUserFields(user, fields))
+                    .toList();
+
+            groupAssignments.put(group.getName(), students);
             unassigned.removeAll(group.getMembers());
         }
 
-        return new AllocationResult(groupAssignments, unassigned);
+        final List<Map<String, Object>> unassignedMapped = unassigned.stream()
+                .map(user -> extractUserFields(user, fields))
+                .toList();
+
+        return new AllocationResultDto(groupAssignments, unassignedMapped);
+    }
+
+    private Map<String, Object> extractUserFields(User user, List<String> fields) {
+        final Map<String, Object> result = new LinkedHashMap<>();
+
+        for (String fieldName : fields) {
+            try {
+                Field field = User.class.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                Object value = field.get(user);
+                result.put(field.getName(), value);
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+            }
+        }
+
+        return result;
     }
 }
