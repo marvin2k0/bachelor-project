@@ -16,7 +16,7 @@ public class OptaPlannerConfig {
                 .withSolutionClass(AllocationSolution.class)
                 .withEntityClasses(GroupAssignment.class)
                 .withConstraintProviderClass(AllocationConstraintProvider.class)
-                .withTerminationSpentLimit(Duration.ofSeconds(45));
+                .withTerminationSpentLimit(Duration.ofSeconds(10));
     }
 
     @Bean
