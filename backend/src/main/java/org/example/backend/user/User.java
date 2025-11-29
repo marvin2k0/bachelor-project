@@ -1,5 +1,6 @@
 package org.example.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,7 @@ public class User {
     private List<Survey> createdSurveys;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members")

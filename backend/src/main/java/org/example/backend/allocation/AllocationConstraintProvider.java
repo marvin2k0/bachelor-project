@@ -11,7 +11,8 @@ public class AllocationConstraintProvider implements ConstraintProvider {
     public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
         return new Constraint[] {
                 groupCapacity(constraintFactory),
-                maximizePriorityFulfillment(constraintFactory)
+                maximizePriorityFulfillment(constraintFactory),
+                penalizeUnpreferredAssignments(constraintFactory)
         };
     }
 
