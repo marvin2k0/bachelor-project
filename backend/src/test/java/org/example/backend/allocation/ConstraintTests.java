@@ -280,6 +280,119 @@ public class ConstraintTests {
         final Solver<AllocationSolution> solver = solverFactory.buildSolver();
         final AllocationSolution solution = solver.solve(problem);
 
+        printSolution(solution);
+
+        assertNotNull(solution);
+        assertNotNull(solution.getScore());
+        assertEquals(0, solution.getScore().hardScore());
+    }
+
+    @Test
+    void test_equally_distributed() {
+        final Group group1 = Group.builder()
+                .id(1L)
+                .name("T01")
+                .capacity(2)
+                .build();
+        final Group group2 = Group.builder()
+                .id(2L)
+                .name("T02")
+                .capacity(2)
+                .build();
+        final User user1 = User.builder()
+                .name("Madeye Moody")
+                .build();
+        final User user2 = User.builder()
+                .name("Dolores Umbridge")
+                .build();
+
+        final List<GroupAssignment> assignments = new ArrayList<>();
+
+        final GroupPreference pref1 = new GroupPreference(1L, user1, group1, 1);
+        final GroupPreference pref2 = new GroupPreference(2L, user1, group2, 2);
+        final GroupPreference pref3 = new GroupPreference(3L, user2, group2, 1);
+        final GroupPreference pref4 = new GroupPreference(4L, user2, group1, 2);
+        
+        assignments.add(new GroupAssignment(1L, user1, List.of(pref1, pref2)));
+        assignments.add(new GroupAssignment(2L, user2, List.of(pref3, pref4)));
+
+        final AllocationSolution problem = new AllocationSolution(
+                Arrays.asList(group1, group2),
+                assignments
+        );
+        final SolverFactory<AllocationSolution> solverFactory = createSolverFactory();
+        final Solver<AllocationSolution> solver = solverFactory.buildSolver();
+        final AllocationSolution solution = solver.solve(problem);
+
+        printSolution(solution);
+
+        assertEquals(-2, solution.getScore().softScore());
+    }
+    
+    @Test
+    void test_not_solvable() {
+        final Group group1 = Group.builder()
+                .id(1L)
+                .name("T01")
+                .capacity(1)
+                .build();
+
+        final User user1 = User.builder()
+                .name("Bernhard Müller")
+                .build();
+        final User user2 = User.builder()
+                .name("Bianca Müller")
+                .build();
+        final User user3 = User.builder()
+                .name("Ludwig Ludolf")
+                .build();
+
+        final GroupPreference pref1 = GroupPreference.builder()
+                .id(1L)
+                .user(user1)
+                .group(group1)
+                .priority(1)
+                .build();
+        final GroupPreference pref2 = GroupPreference.builder()
+                .id(2L)
+                .user(user2)
+                .group(group1)
+                .priority(1)
+                .build();
+        final GroupPreference pref3 = GroupPreference.builder()
+                .id(3L)
+                .user(user3)
+                .group(group1)
+                .priority(1)
+                .build();
+
+        final List<GroupAssignment> assignmentList = List.of(
+                new GroupAssignment(1L, user1, Collections.singletonList(pref1)),
+                new GroupAssignment(2L, user2, Collections.singletonList(pref2)),
+                new GroupAssignment(3L, user3, Collections.singletonList(pref3))
+        );
+
+        final AllocationSolution problem = new AllocationSolution(
+                Arrays.asList(group1),
+                assignmentList
+        );
+        final SolverFactory<AllocationSolution> solverFactory = createSolverFactory();
+        final Solver<AllocationSolution> solver = solverFactory.buildSolver();
+        final AllocationSolution solution = solver.solve(problem);
+
+        assertNotNull(solution);
+        assertEquals(-2, solution.getScore().hardScore());
+    }
+
+    private static Integer[] randomPriorities() {
+        final List<Integer> priorities = new ArrayList<>(List.of(1, 2, 3, 4));
+
+        Collections.shuffle(priorities);
+
+        return priorities.toArray(new Integer[]{});
+    }
+
+    private static void printSolution(AllocationSolution solution) {
         System.out.println("\n====== SOLUTION (" + solution.getScore() + ") ======");
 
         final Map<Group, List<GroupAssignment>> groupAssignments = solution.getAssignments().stream().collect(Collectors.groupingBy(GroupAssignment::getAssignedGroup));
@@ -290,19 +403,6 @@ public class ConstraintTests {
 
             System.out.println(group.getName() + " => " + String.join(", ", tempAssignments.stream().map(a -> a.getUser().getName()).toList()));
         }
-
-        assertNotNull(solution);
-        assertNotNull(solution.getScore());
-        //assertEquals(-3, solution.getScore().softScore());
-        assertEquals(0, solution.getScore().hardScore());
-    }
-
-    private static Integer[] randomPriorities() {
-        final List<Integer> priorities = new ArrayList<>(List.of(1, 2, 3, 4));
-
-        Collections.shuffle(priorities);
-
-        return priorities.toArray(new Integer[]{});
     }
 
     private SolverFactory<AllocationSolution> createSolverFactory() {
