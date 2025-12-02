@@ -1,11 +1,14 @@
 package org.example.backend.survey;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import org.example.backend.group.Group;
 import org.example.backend.group.GroupService;
+import org.example.backend.group.dto.GroupCreationDto;
+import org.example.backend.mappers.SurveyMapper;
 import org.example.backend.survey.dto.ParticipantImportResultDto;
 import org.example.backend.survey.dto.SurveyCreationDto;
+import org.example.backend.survey.dto.SurveyDto;
 import org.example.backend.survey.dto.SurveyUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,46 +26,40 @@ import org.springframework.web.multipart.MultipartFile;
 public class SurveyController {
     private final SurveyService service;
     private final GroupService groupService;
+    private final SurveyMapper mapper;
 
     @GetMapping("/")
-    public ResponseEntity<List<Survey>> getAllSurveys() {
-        return ResponseEntity.ok(service.getAllSurveys());
+    public ResponseEntity<List<SurveyDto>> getAllSurveys() {
+        return ResponseEntity.ok(this.mapper.toDto(service.getAllSurveys()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Survey> getSurveyDetails(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getSurveyById(id));
+    public ResponseEntity<SurveyDto> getSurveyDetails(@PathVariable Long id) {
+        return ResponseEntity.ok(this.mapper.toDto(service.getSurveyById(id)));
     }
 
     @PostMapping("/")
-    public ResponseEntity<Survey> addSurvey(@RequestBody SurveyCreationDto surveyDto) {
+    public ResponseEntity<SurveyDto> addSurvey(@Valid @RequestBody SurveyCreationDto surveyCreationDto) {
+        final Survey survey = service.saveSurvey(surveyCreationDto);
 
-        final Survey survey = Survey.builder()
-                .name(surveyDto.name())
-                .startTime(surveyDto.startTime())
-                .description(surveyDto.description())
-                .endTime(surveyDto.endTime())
-                .build();
-
-        service.saveSurvey(survey);
-
-        for (int i = 0; i < surveyDto.groupCount(); i++) {
-            final Group group = Group.builder()
-                    .name("T" + (i<9 ? "0" : "") + (i+1))
-                    .capacity(6)
-                    .survey(survey)
-                    .build();
-
+        for (int i = 0; i < surveyCreationDto.groupCount(); i++) {
+            final GroupCreationDto group = new GroupCreationDto(
+                    "T" + (i<9 ? "0" : "") + (i+1),
+                    survey.getId(),
+                    6
+            );
             groupService.saveGroup(group);
         }
 
-        return ResponseEntity.ok(survey);
+        return ResponseEntity.ok(this.mapper.toDto(survey));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Survey> updateSurvey(@PathVariable Long id, @RequestBody SurveyUpdateDto surveyDto) {
-        System.out.println(surveyDto);
-        return ResponseEntity.ok(service.updateSurvey(id, surveyDto));
+    public ResponseEntity<SurveyDto> updateSurvey(@PathVariable Long id, @Valid @RequestBody SurveyUpdateDto surveyUpdateDto) {
+        System.out.println(surveyUpdateDto);
+        final Survey survey = service.updateSurvey(id, surveyUpdateDto);
+
+        return ResponseEntity.ok(this.mapper.toDto(survey));
     }
 
     @DeleteMapping("/{id}")

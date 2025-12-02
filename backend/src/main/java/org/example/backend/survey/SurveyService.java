@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.example.backend.mappers.SurveyMapper;
 import org.example.backend.survey.dto.*;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
@@ -25,13 +26,14 @@ import org.apache.commons.csv.CSVRecord;
 public class SurveyService {
     private final SurveyRepository repository;
     private final UserRepository userRepository;
+    private final SurveyMapper mapper;
 
     public List<Survey> getAllSurveys() {
         return repository.findAll();
     }
 
-    public Survey saveSurvey(Survey entity) {
-        return this.repository.save(entity);
+    public Survey saveSurvey(SurveyCreationDto surveyCreationDto) {
+        return this.repository.save(this.mapper.toEntity(surveyCreationDto));
     }
 
     public Survey getSurveyById(long id) {
@@ -63,11 +65,7 @@ public class SurveyService {
     public Survey updateSurvey(Long id, SurveyUpdateDto entity) {
         final Survey survey = repository.findById(id)
                 .orElseThrow(() -> new UnsupportedOperationException("Survey not found for this id :: " + id));
-
-        survey.setName(entity.name());
-        survey.setDescription(entity.description());
-        survey.setStartTime(entity.startTime());
-        survey.setEndTime(entity.endTime());
+        this.mapper.updateEntity(id, entity, survey);
 
         return this.repository.save(survey);
     }

@@ -17,6 +17,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "Groups")
+@ToString
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,9 +2,13 @@ package org.example.backend.group;
 
 import lombok.RequiredArgsConstructor;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 
+import org.example.backend.group.dto.GroupCreationDto;
+import org.example.backend.group.dto.GroupUpdateDto;
+import org.example.backend.mappers.GroupMapper;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +17,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GroupService {
     private final GroupRepository repository;
+    private final GroupMapper mapper;
 
     public List<Group> getAllGroups() {
         return repository.findAll();
     }
 
-    public Group saveGroup(Group entity) {
-        return this.repository.save(entity);
+    public Group saveGroup(GroupCreationDto groupCreationDto) {
+        System.out.println("groupCreationDto = " + groupCreationDto);
+        final Group group = this.mapper.toEntity(groupCreationDto);
+        System.out.println("group = " + group);
+        return this.repository.save(group);
     }
 
     public Group getGroupById(long id) {
@@ -37,13 +45,11 @@ public class GroupService {
         this.repository.deleteById(id);
     }
 
-    public Group updateGroup(Long id, Group entity) {
-
+    public Group updateGroup(Long id, GroupUpdateDto entity) {
         final Group entityFromDb = repository.findById(id)
-                .orElseThrow(() -> new UnsupportedOperationException("Group not found for this id :: " + id));
+                .orElseThrow(() -> new UnsupportedOperationException("Group not found for this id: " + id));
+        this.mapper.updateEntity(entity, entityFromDb);
 
-        entityFromDb.setId(id);
-        this.repository.save(entityFromDb);
-        return entityFromDb;
+        return this.repository.save(entityFromDb);
     }
 }
