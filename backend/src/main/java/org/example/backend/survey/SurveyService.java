@@ -107,7 +107,7 @@ public class SurveyService {
 
                     ParticipantDto participantDto = new ParticipantDto(
                             user.getId(),
-                            user.getName(),
+                            user.getUsername(),
                             user.getMatriculationNumber(),
                             user.getEmail()
                     );
@@ -165,7 +165,7 @@ public class SurveyService {
         return userRepository.findByMatriculationNumber(row.matriculationNumber())
                 .orElseGet(() -> {
                     User newUser = User.builder()
-                            .name(row.name())
+                            .username(row.name())
                             .email(row.email())
                             .matriculationNumber(row.matriculationNumber())
                             .password(null)

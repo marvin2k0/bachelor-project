@@ -8,14 +8,12 @@ import org.example.backend.survey.SurveyService;
 import org.example.backend.user.User;
 import org.example.backend.user.UserService;
 
+import org.example.backend.user.dto.UserCreationDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,8 +82,9 @@ public class GroupTests {
 
     @Test
     void test_add_members_to_group() {
-        User u1 = userService.saveUser(User.builder().name("Anna").build());
-        User u2 = userService.saveUser(User.builder().name("Ben").build());
+        ;
+        User u1 = userService.createUser(new UserCreationDto("Anna", "1111111", "anna@gmail.com"));
+        User u2 = userService.createUser(new UserCreationDto("Ben", "1111112", "ben@gmail.com"));
 
         group = Group.builder()
                 .name("Group C")
@@ -100,13 +99,13 @@ public class GroupTests {
         Group found = groupService.getGroupById(group.getId());
 
         assertEquals(2, found.getMembers().size());
-        assertTrue(found.getMembers().stream().anyMatch(u -> u.getName().equals("Anna")));
-        assertTrue(found.getMembers().stream().anyMatch(u -> u.getName().equals("Ben")));
+        assertTrue(found.getMembers().stream().anyMatch(u -> u.getUsername().equals("Anna")));
+        assertTrue(found.getMembers().stream().anyMatch(u -> u.getUsername().equals("Ben")));
     }
 
     @Test
     void test_group_preferences() {
-        User user = userService.saveUser(User.builder().name("Chris").build());
+        User user = userService.createUser(new UserCreationDto("Chris", "1111113", "chris@gmail.com"));
 
         group = Group.builder()
                 .name("Group D")
@@ -126,6 +125,6 @@ public class GroupTests {
 
         assertEquals(1, found.getGroupPreferences().size());
         assertEquals(1, found.getGroupPreferences().getFirst().getPriority());
-        assertEquals("Chris", found.getGroupPreferences().getFirst().getUser().getName());
+        assertEquals("Chris", found.getGroupPreferences().getFirst().getUser().getUsername());
     }
 }

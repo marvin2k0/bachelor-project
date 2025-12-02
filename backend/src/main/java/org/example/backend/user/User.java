@@ -2,11 +2,7 @@ package org.example.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.backend.survey.Survey;
 import org.example.backend.group.Group;
 import org.example.backend.groupPreference.GroupPreference;
@@ -21,16 +17,21 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "Users")
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    private String username;
+
+    @Column(unique = true)
     private String email;
-    private String password;
 
     @Column(unique = true)
     private String matriculationNumber;
+
+    private String password;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Survey> createdSurveys;

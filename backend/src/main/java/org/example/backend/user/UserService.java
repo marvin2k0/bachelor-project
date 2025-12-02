@@ -5,22 +5,28 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-import org.example.backend.survey.Survey;
+import lombok.extern.slf4j.Slf4j;
+import org.example.backend.mappers.UserMapper;
+import org.example.backend.user.dto.UserCreationDto;
+import org.example.backend.user.dto.UserUpdateDto;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
     private final UserRepository repository;
+    private final UserMapper mapper;
 
     public List<User> getAllUsers() {
         return repository.findAll();
     }
 
-    public User saveUser(User entity) {
-        return this.repository.save(entity);
+    public User createUser(UserCreationDto userCreationDto) {
+        final User user = this.mapper.toEntity(userCreationDto);
+        return this.repository.save(user);
     }
 
     public User getUserById(long id) {
@@ -35,7 +41,7 @@ public class UserService {
     }
 
     public User getUserByName(String name) {
-        final Optional<User> optional = repository.findByName(name);
+        final Optional<User> optional = repository.findByUsername(name);
         User entity;
         if (optional.isPresent()) {
             entity = optional.get();
@@ -49,15 +55,15 @@ public class UserService {
         this.repository.deleteById(id);
     }
 
-    public void deleteUserByName(String name) { this.repository.deleteByName(name); }
+    public Optional<User> deleteUserByName(String name) {
+        return this.repository.deleteByUsername(name);
+    }
 
-    public User updateUser(Long id, User entity) {
+    public User updateUser(Long id, UserUpdateDto userUpdateDto) {
+        final User user = repository.findById(id)
+                .orElseThrow(() -> new UnsupportedOperationException("User not found for this id: " + id));
+        this.mapper.updateEntity(userUpdateDto, user);
 
-        final User entityFromDb = repository.findById(id)
-                .orElseThrow(() -> new UnsupportedOperationException("User not found for this id :: " + id));
-
-        entityFromDb.setId(id);
-        this.repository.save(entityFromDb);
-        return entityFromDb;
+        return this.repository.save(user);
     }
 }

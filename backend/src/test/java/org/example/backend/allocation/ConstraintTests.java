@@ -38,11 +38,11 @@ public class ConstraintTests {
                 .build();
 
         final User user1 = User.builder()
-                .name("Max Mustermann")
+                .username("Max Mustermann")
                 .email("max.mustermann@uni.de")
                 .build();
         final User user2 = User.builder()
-                .name("Lisa Musterfrau")
+                .username("Lisa Musterfrau")
                 .email("lisa.musterfrau@uni.de")
                 .build();
 
@@ -69,16 +69,16 @@ public class ConstraintTests {
                 .build();
 
         final User user1 = User.builder()
-                .name("Bernhard Müller")
+                .username("Bernhard Müller")
                 .build();
         final User user2 = User.builder()
-                .name("Bianca Müller")
+                .username("Bianca Müller")
                 .build();
         final User user3 = User.builder()
-                .name("Ludwig Ludolf")
+                .username("Ludwig Ludolf")
                 .build();
         final User user4 = User.builder()
-                .name("Patrick Star")
+                .username("Patrick Star")
                 .build();
 
         final GroupPreference pref1 = GroupPreference.builder()
@@ -145,13 +145,13 @@ public class ConstraintTests {
                 .build();
 
         final User user1 = User.builder()
-                .name("Bernhard Müller")
+                .username("Bernhard Müller")
                 .build();
         final User user2 = User.builder()
-                .name("Bianca Müller")
+                .username("Bianca Müller")
                 .build();
         final User user3 = User.builder()
-                .name("Ludwig Ludolf")
+                .username("Ludwig Ludolf")
                 .build();
 
         final GroupPreference pref1 = GroupPreference.builder()
@@ -227,25 +227,25 @@ public class ConstraintTests {
         final List<Group> groups = List.of(group1, group2, group3, group4);
 
         final User user1 = User.builder()
-                .name("Bernhard Müller")
+                .username("Bernhard Müller")
                 .build();
         final User user2 = User.builder()
-                .name("Bianca Müller")
+                .username("Bianca Müller")
                 .build();
         final User user3 = User.builder()
-                .name("Ludwig Ludolf")
+                .username("Ludwig Ludolf")
                 .build();
         final User user4 = User.builder()
-                .name("Tom Riddle")
+                .username("Tom Riddle")
                 .build();
         final User user5 = User.builder()
-                .name("Robert Spongebob Schwammkopf")
+                .username("Robert Spongebob Schwammkopf")
                 .build();
         final User user6 = User.builder()
-                .name("Sheldon Cooper")
+                .username("Sheldon Cooper")
                 .build();
         final User user7 = User.builder()
-                .name("Harry Potter")
+                .username("Harry Potter")
                 .build();
 
         final List<User> users = List.of(user1, user2, user3, user4, user5, user6, user7);
@@ -266,7 +266,7 @@ public class ConstraintTests {
 
             assignments.add(new GroupAssignment(assignmentId++, user, preferences));
 
-            System.out.println("USER: " + user.getName());
+            System.out.println("USER: " + user.getUsername());
 
             for (GroupPreference preference : preferences)
                 System.out.println("\t" + preference.getGroup().getName() + " => " + preference.getPriority());
@@ -300,10 +300,10 @@ public class ConstraintTests {
                 .capacity(2)
                 .build();
         final User user1 = User.builder()
-                .name("Madeye Moody")
+                .username("Madeye Moody")
                 .build();
         final User user2 = User.builder()
-                .name("Dolores Umbridge")
+                .username("Dolores Umbridge")
                 .build();
 
         final List<GroupAssignment> assignments = new ArrayList<>();
@@ -338,13 +338,13 @@ public class ConstraintTests {
                 .build();
 
         final User user1 = User.builder()
-                .name("Bernhard Müller")
+                .username("Bernhard Müller")
                 .build();
         final User user2 = User.builder()
-                .name("Bianca Müller")
+                .username("Bianca Müller")
                 .build();
         final User user3 = User.builder()
-                .name("Ludwig Ludolf")
+                .username("Ludwig Ludolf")
                 .build();
 
         final GroupPreference pref1 = GroupPreference.builder()
@@ -401,7 +401,7 @@ public class ConstraintTests {
             final Group group = entry.getKey();
             final List<GroupAssignment> tempAssignments = entry.getValue();
 
-            System.out.println(group.getName() + " => " + String.join(", ", tempAssignments.stream().map(a -> a.getUser().getName()).toList()));
+            System.out.println(group.getName() + " => " + String.join(", ", tempAssignments.stream().map(a -> a.getUser().getUsername()).toList()));
         }
     }
 

@@ -102,8 +102,8 @@ public class SurveyTests {
 
         assertEquals(2, updated.getParticipants().size());
         assertTrue(updated.getParticipants().stream()
-                .anyMatch(u -> "Anna Keck".equals(u.getName())));
+                .anyMatch(u -> "Anna Keck".equals(u.getUsername())));
         assertTrue(updated.getParticipants().stream()
-                .anyMatch(u -> "Ben Blümchen".equals(u.getName())));
+                .anyMatch(u -> "Ben Blümchen".equals(u.getUsername())));
     }
 }

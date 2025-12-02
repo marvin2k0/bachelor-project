@@ -2,12 +2,17 @@ package org.example.backend.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserCreationDto(
         @NotBlank
         @Size(min = 3, message = "At least three characters needed for username")
         String username,
+
+        @NotBlank
+        @Pattern(regexp = "[0-9]{7}", message = "Matriculation number must be a 7 digit number")
+        String matriculationNumber,
 
         @NotBlank
         @Email(message = "Email format invalid")

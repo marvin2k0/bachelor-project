@@ -1,7 +1,13 @@
 package org.example.backend.user;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.backend.mappers.UserMapper;
+import org.example.backend.user.dto.UserCreationDto;
+import org.example.backend.user.dto.UserDto;
+import org.example.backend.user.dto.UserUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,27 +20,34 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     private final UserService service;
+    private final UserMapper mapper;
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(service.getAllUsers());
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        final List<User> users = service.getAllUsers();
+        return ResponseEntity.ok(this.mapper.toDto(users));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserDetails(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getUserById(id));
+    public ResponseEntity<UserDto> getUserDetails(@PathVariable Long id) {
+        final User user = service.getUserById(id);
+        return ResponseEntity.ok(this.mapper.toDto(user));
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        return ResponseEntity.ok(service.saveUser(user));
+    public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserCreationDto userCreationDto) {
+        final User user = service.createUser(userCreationDto);
+        log.info("User created {}", user);
+        return ResponseEntity.ok(this.mapper.toDto(user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return ResponseEntity.ok(service.updateUser(id, user));
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
+        final User user = this.service.updateUser(id, userUpdateDto);
+        return ResponseEntity.ok(this.mapper.toDto(user));
     }
 
     @DeleteMapping("/{id}")
