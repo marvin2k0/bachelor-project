@@ -32,10 +32,12 @@ public class Group {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
     private List<GroupPreference> groupPreferences = new ArrayList<>();
 
     @ManyToMany
     @Builder.Default
+    @JsonIgnore
     @JoinTable(
             name = "group_members",
             joinColumns = @JoinColumn(name = "group_id"),

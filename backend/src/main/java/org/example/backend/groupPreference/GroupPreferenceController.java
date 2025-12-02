@@ -2,6 +2,9 @@ package org.example.backend.groupPreference;
 
 import lombok.RequiredArgsConstructor;
 
+import org.example.backend.group.GroupService;
+import org.example.backend.groupPreference.dto.GroupPreferenceDto;
+import org.example.backend.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class GroupPreferenceController {
     private final GroupPreferenceService service;
+    private final UserService userService;
+    private final GroupService groupService;
 
     @GetMapping("/")
     public ResponseEntity<List<GroupPreference>> getAllGroupPreferences() {
@@ -28,7 +33,16 @@ public class GroupPreferenceController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<GroupPreference> addGroupPreference(@RequestBody GroupPreference groupPreference) {
+    public ResponseEntity<GroupPreference> addGroupPreference(@RequestBody GroupPreferenceDto groupPreferenceDto) {
+        System.out.println(groupPreferenceDto);
+
+        final GroupPreference groupPreference = GroupPreference.builder()
+                .user(userService.getUserById(groupPreferenceDto.user()))
+                .group(groupService.getGroupById(groupPreferenceDto.group()))
+                .priority(groupPreferenceDto.priority())
+                .build();
+
+        System.out.println(groupPreference);
         return ResponseEntity.ok(service.saveGroupPreference(groupPreference));
     }
 
