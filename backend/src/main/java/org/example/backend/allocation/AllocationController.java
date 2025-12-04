@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping("/api/v1/allocation")
+@RequestMapping("/api/v1/allocations")
 @RequiredArgsConstructor
 public class AllocationController {
     private final AllocationService allocationService;
 
-    @PostMapping("/surveys/{surveyId}/allocate")
+    @PostMapping("/{surveyId}/allocate")
     public ResponseEntity<AllocationResponse> allocateGroups(@PathVariable long surveyId) {
         try {
             AllocationSolution solution = allocationService.allocateSurvey(surveyId);
@@ -36,8 +36,8 @@ public class AllocationController {
         }
     }
 
-    @GetMapping("/surveys/{surveyId}/result")
-    public ResponseEntity<AllocationResultDto> getResult(@PathVariable long surveyId, @RequestParam(required = false, defaultValue = "name,matriculationNumber") List<String> fields) {
+    @GetMapping("/{surveyId}/result")
+    public ResponseEntity<AllocationResultDto> getResult(@PathVariable long surveyId, @RequestParam(required = false, defaultValue = "username,matriculationNumber") List<String> fields) {
         final AllocationResultDto result = allocationService.getResult(surveyId, fields);
         return ResponseEntity.ok(result);
     }

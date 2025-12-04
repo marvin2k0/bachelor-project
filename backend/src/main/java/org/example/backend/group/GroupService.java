@@ -2,7 +2,6 @@ package org.example.backend.group;
 
 import lombok.RequiredArgsConstructor;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +23,7 @@ public class GroupService {
     }
 
     public Group saveGroup(GroupCreationDto groupCreationDto) {
-        System.out.println("groupCreationDto = " + groupCreationDto);
         final Group group = this.mapper.toEntity(groupCreationDto);
-        System.out.println("group = " + group);
         return this.repository.save(group);
     }
 

@@ -15,20 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/group")
+@RequestMapping("/api/v1/groups")
 @RequiredArgsConstructor
 public class GroupController {
     private final SurveyService surveyService;
     private final GroupService service;
     private final GroupMapper mapper;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<GroupDto>> getAllGroups() {
         return ResponseEntity.ok(this.mapper.toDto(service.getAllGroups()));
     }
@@ -38,7 +37,7 @@ public class GroupController {
         return ResponseEntity.ok(this.mapper.toDto(service.getGroupById(id)));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<GroupDto> addGroup(@Valid @RequestBody GroupCreationDto groupCreationDto) {
         final Survey survey = surveyService.getSurveyById(groupCreationDto.surveyId());
 

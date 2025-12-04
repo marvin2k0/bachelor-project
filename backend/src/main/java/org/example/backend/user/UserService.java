@@ -2,13 +2,14 @@ package org.example.backend.user;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.backend.mappers.UserMapper;
 import org.example.backend.user.dto.UserCreationDto;
 import org.example.backend.user.dto.UserUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    public List<User> getAllUsers() {
-        return repository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public User createUser(UserCreationDto userCreationDto) {

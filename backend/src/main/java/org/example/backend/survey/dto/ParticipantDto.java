@@ -2,7 +2,7 @@ package org.example.backend.survey.dto;
 
 public record ParticipantDto(
         Long id,
-        String name,
+        String username,
         String matriculationNumber,
         String email
 ) {

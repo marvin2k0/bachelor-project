@@ -13,6 +13,8 @@ import org.example.backend.mappers.SurveyMapper;
 import org.example.backend.survey.dto.*;
 import org.example.backend.user.User;
 import org.example.backend.user.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +30,12 @@ public class SurveyService {
     private final UserRepository userRepository;
     private final SurveyMapper mapper;
 
-    public List<Survey> getAllSurveys() {
-        return repository.findAll();
+    public Page<User> getParticipantsBySurveyId(long surveyId, Pageable pageable) {
+        return this.repository.findParticipantsBySurveyId(surveyId, pageable);
+    }
+
+    public Page<Survey> getAllSurveys(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Survey saveSurvey(SurveyCreationDto surveyCreationDto) {
@@ -138,11 +144,11 @@ public class SurveyService {
     }
 
     private StudentCsvRowDto mapRecordToDto(CSVRecord record, int lineNumber) {
-        String matriculationNumber = record.get("Matrikelnummer").trim();
-        String vorname = record.get("Vorname").trim();
-        String nachname = record.get("Nachname").trim();
-        String name = (vorname + " " + nachname).trim();
-        String email = record.get("E-Mail-Adresse").trim();
+        final String vorname = record.get("Vorname").trim();
+        final String nachname = record.get("Nachname").trim();
+        final String matriculationNumber = record.get("Matrikelnummer").trim();
+        final String name = (vorname + " " + nachname).trim();
+        final String email = record.get("E-Mail-Adresse").trim();
 
         if (matriculationNumber.isEmpty()) {
             throw new IllegalArgumentException("Matrikelnummer fehlt");

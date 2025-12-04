@@ -8,27 +8,28 @@ import org.example.backend.mappers.UserMapper;
 import org.example.backend.user.dto.UserCreationDto;
 import org.example.backend.user.dto.UserDto;
 import org.example.backend.user.dto.UserUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
     private final UserService service;
     private final UserMapper mapper;
 
-    @GetMapping("/")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        final List<User> users = service.getAllUsers();
-        return ResponseEntity.ok(this.mapper.toDto(users));
+    @GetMapping
+    public ResponseEntity<Page<UserDto>> getAllUsers(@PageableDefault(sort = "id") Pageable pageable) {
+        final Page<User> page = service.getAllUsers(pageable);
+        return ResponseEntity.ok(page.map(this.mapper::toDto));
     }
 
     @GetMapping("/{id}")
@@ -37,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok(this.mapper.toDto(user));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserCreationDto userCreationDto) {
         final User user = service.createUser(userCreationDto);
         log.info("User created {}", user);

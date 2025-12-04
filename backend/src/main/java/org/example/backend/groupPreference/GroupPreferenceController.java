@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/grouppreference")
+@RequestMapping("/api/v1/preferences")
 @RequiredArgsConstructor
 public class GroupPreferenceController {
     private final GroupPreferenceService service;
     private final UserService userService;
     private final GroupService groupService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<GroupPreference>> getAllGroupPreferences() {
         return ResponseEntity.ok(service.getAllGroupPreferences());
     }
@@ -32,7 +32,7 @@ public class GroupPreferenceController {
         return ResponseEntity.ok(service.getGroupPreferenceById(id));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<GroupPreference> addGroupPreference(@RequestBody GroupPreferenceDto groupPreferenceDto) {
         System.out.println(groupPreferenceDto);
 

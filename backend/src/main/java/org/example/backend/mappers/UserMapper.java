@@ -1,5 +1,6 @@
 package org.example.backend.mappers;
 
+import org.example.backend.survey.dto.ParticipantDto;
 import org.example.backend.user.User;
 import org.example.backend.user.dto.UserCreationDto;
 import org.example.backend.user.dto.UserDto;
@@ -14,6 +15,7 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface UserMapper {
+    ParticipantDto toParticipantDto(User user);
     UserDto toDto(User user);
 
     List<UserDto> toDto(List<User> users);
