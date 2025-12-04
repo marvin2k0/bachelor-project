@@ -472,7 +472,6 @@ public class ConstraintTests {
                 final int priority = priorities[index++];
                 final GroupPreference pref = new GroupPreference(prefId++, user, group, priority);
                 preferences.add(pref);
-                System.out.println("\t" + pref.getGroup().getName() + " => " + pref.getPriority());
             }
 
             assignments.add(new GroupAssignment(assignmentId++, user, preferences));
