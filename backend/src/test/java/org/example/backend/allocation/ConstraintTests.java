@@ -432,8 +432,6 @@ public class ConstraintTests {
         final Solver<AllocationSolution> solver = solverFactory.buildSolver();
         final AllocationSolution solution = solver.solve(problem);
 
-        System.out.println("problem = " + problem.getAssignments());
-
         printSolution(solution);
 
         assertNotNull(solution);
@@ -470,16 +468,12 @@ public class ConstraintTests {
             final Integer[] priorities = randomPriorities(groups.size());
             int index = 0;
 
-            System.out.println(user.getName());
-
             for (Group group : groups) {
                 final int priority = priorities[index++];
                 final GroupPreference pref = new GroupPreference(prefId++, user, group, priority);
                 preferences.add(pref);
                 System.out.println("\t" + pref.getGroup().getName() + " => " + pref.getPriority());
             }
-
-            System.out.println();
 
             assignments.add(new GroupAssignment(assignmentId++, user, preferences));
         }
