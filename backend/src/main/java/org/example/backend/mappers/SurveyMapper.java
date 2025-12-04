@@ -15,6 +15,8 @@ import java.util.List;
         uses = {GroupMapper.class}
 )
 public interface SurveyMapper {
+    @Mapping(target = "participantCount", expression = "java(getParticipantCount(survey))")
+    @Mapping(target = "groupCount", expression = "java(getGroupCount(survey))")
     SurveyDto toDto(Survey survey);
 
     List<SurveyDto> toDto(List<Survey> surveys);
@@ -24,4 +26,16 @@ public interface SurveyMapper {
 
     @Mapping(target = "id", ignore = true)
     void updateEntity(Long id, SurveyUpdateDto entity, @MappingTarget Survey survey);
+
+    default int getParticipantCount(Survey survey) {
+        return survey.getParticipants() != null
+                ? survey.getParticipants().size()
+                : 0;
+    }
+
+    default int getGroupCount(Survey survey) {
+        return survey.getGroups() != null
+                ? survey.getGroups().size()
+                : 0;
+    }
 }

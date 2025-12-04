@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.io.input.BOMInputStream;
 import org.example.backend.mappers.SurveyMapper;
 import org.example.backend.survey.dto.*;
 import org.example.backend.user.User;
@@ -87,7 +88,12 @@ public class SurveyService {
         int successCount = 0;
 
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+                new InputStreamReader(BOMInputStream.builder()
+                        .setInputStream(file.getInputStream())
+                        .get(),
+                        StandardCharsets.UTF_8
+                ))
+        ) {
 
             CSVParser parser = CSVFormat.Builder.create()
                     .setDelimiter(',')

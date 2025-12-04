@@ -4,13 +4,14 @@ import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs';
 import { ParticipantImportResult} from '../model/participant-import-result';
 import { Observable} from 'rxjs';
+import {ResponseModel} from '../model/response-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SurveyService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = "http://localhost:8080/api/v1/survey/";
+  private readonly baseUrl = "http://localhost:8080/api/v1/surveys";
   private readonly _surveys = signal<Survey[]>([]);
 
   readonly surveys = computed(() => this._surveys());
@@ -30,11 +31,11 @@ export class SurveyService {
   }
 
   update(survey: Survey) {
-    return this.http.put<Survey>(`${this.baseUrl}${survey.id!}`, survey)
+    return this.http.put<Survey>(`${this.baseUrl}/${survey.id!}`, survey)
   }
 
   delete(survey: Survey) {
-    return this.http.delete(`${this.baseUrl}${survey.id}`).pipe(
+    return this.http.delete(`${this.baseUrl}/${survey.id}`).pipe(
       tap(() => {
         this._surveys.update(list => list.filter(s => s.id !== survey.id));
       })
@@ -44,9 +45,10 @@ export class SurveyService {
   loadSurveys() {
     this._surveys.set([])
 
-    this.http.get<Survey[]>(this.baseUrl).subscribe({
+    this.http.get<ResponseModel<Survey[]>>(this.baseUrl).subscribe({
       next: data => {
-        const surveyData = data.map(survey => ({
+        const content = data.content
+        const surveyData = content.map(survey => ({
           ...survey,
           startTime: survey.startTime ? new Date(survey.startTime) : null,
           endTime: survey.endTime ? new Date(survey.endTime) : null
@@ -67,7 +69,7 @@ export class SurveyService {
     formData.append('file', file);
 
     return this.http.post<ParticipantImportResult>(
-      `${this.baseUrl}${surveyId}/participants/import`,
+      `${this.baseUrl}/${surveyId}/participants/import`,
       formData
     );
   }
