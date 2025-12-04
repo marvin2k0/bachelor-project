@@ -1,24 +1,41 @@
 package org.example.backend.allocation;
 
+import jakarta.transaction.Transactional;
 import org.example.backend.group.Group;
 import org.example.backend.groupPreference.GroupPreference;
+import org.example.backend.survey.Survey;
+import org.example.backend.survey.SurveyService;
+import org.example.backend.survey.dto.ParticipantImportResultDto;
 import org.example.backend.user.User;
+import org.example.backend.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class ConstraintTests {
     private ConstraintVerifier<AllocationConstraintProvider, AllocationSolution> constraintVerifier;
     private static final Random random = new Random();
+
+    @Autowired
+    private SurveyService surveyService;
+
+    @Autowired
+    private UserService userService;
 
     @BeforeEach
     void setup() {
@@ -373,7 +390,7 @@ public class ConstraintTests {
         );
 
         final AllocationSolution problem = new AllocationSolution(
-                Arrays.asList(group1),
+                Collections.singletonList(group1),
                 assignmentList
         );
         final SolverFactory<AllocationSolution> solverFactory = createSolverFactory();
@@ -384,8 +401,102 @@ public class ConstraintTests {
         assertEquals(-2, solution.getScore().hardScore());
     }
 
+    @Test
+    @Transactional
+    void test_csv_import() throws IOException {
+        final Survey survey = Survey.builder()
+                .id(1L)
+                .name("TEST Survey")
+                .build();
+        surveyService.saveSurvey(survey);
+
+        assertEquals("TEST Survey", surveyService.getSurveyById(1L).getName());
+
+        final URL resource = getClass().getResource("/students.csv");
+
+        assertNotNull(resource);
+
+        final ParticipantImportResultDto participantImportResultDto = surveyService.importParticipantsFromCsv(
+                1L,
+                new MockMultipartFile("students.csv", resource.openStream().readAllBytes())
+        );
+        final List<User> users = participantImportResultDto.importedParticipants().stream().map(p -> userService.getUserById(p.id())).toList();
+        final List<Group> groups = generateGroups(users.size());
+        final List<GroupAssignment> assignments = randomAssignments(users, groups);
+
+        final AllocationSolution problem = new AllocationSolution(
+                groups,
+                assignments
+        );
+        final SolverFactory<AllocationSolution> solverFactory = createSolverFactory();
+        final Solver<AllocationSolution> solver = solverFactory.buildSolver();
+        final AllocationSolution solution = solver.solve(problem);
+
+        System.out.println("problem = " + problem.getAssignments());
+
+        printSolution(solution);
+
+        assertNotNull(solution);
+        assertEquals(0, solution.getScore().hardScore());
+
+        final int softDifference = (solution.getScore().softScore() + users.size()) * -1;
+
+        System.out.println("softDifference = " + softDifference);
+    }
+
+    private static List<Group> generateGroups(int totalCapacity) {
+        final List<Group> groups = new ArrayList<>();
+        final int groupCapacity = 6;
+        final int groupAmount = totalCapacity / groupCapacity + 1;
+
+        for (int i = 0; i < groupAmount; i++) {
+            groups.add(Group.builder()
+                    .id((long) (i + 1))
+                    .name("T" + ((i < 9) ? "0" : "") + i)
+                    .capacity(groupCapacity)
+                    .build());
+        }
+
+        return groups;
+    }
+
+    private static List<GroupAssignment> randomAssignments(List<User> users, List<Group> groups) {
+        long assignmentId = 1;
+        long prefId = 1;
+        final List<GroupAssignment> assignments = new ArrayList<>();
+
+        for (User user : users) {
+            final List<GroupPreference> preferences = new ArrayList<>();
+            final Integer[] priorities = randomPriorities(groups.size());
+            int index = 0;
+
+            System.out.println(user.getName());
+
+            for (Group group : groups) {
+                final int priority = priorities[index++];
+                final GroupPreference pref = new GroupPreference(prefId++, user, group, priority);
+                preferences.add(pref);
+                System.out.println("\t" + pref.getGroup().getName() + " => " + pref.getPriority());
+            }
+
+            System.out.println();
+
+            assignments.add(new GroupAssignment(assignmentId++, user, preferences));
+        }
+
+        return assignments;
+    }
+
     private static Integer[] randomPriorities() {
-        final List<Integer> priorities = new ArrayList<>(List.of(1, 2, 3, 4));
+        return randomPriorities(4);
+    }
+
+    private static Integer[] randomPriorities(int amount) {
+        final List<Integer> priorities = new ArrayList<>();
+
+        for (int i = 1; i <= amount; i++) {
+            priorities.add(i);
+        }
 
         Collections.shuffle(priorities);
 
@@ -401,7 +512,7 @@ public class ConstraintTests {
             final Group group = entry.getKey();
             final List<GroupAssignment> tempAssignments = entry.getValue();
 
-            System.out.println(group.getName() + " => " + String.join(", ", tempAssignments.stream().map(a -> a.getUser().getName()).toList()));
+            System.out.println(group.getName() + " => " + String.join(", ", tempAssignments.stream().map(a -> a.getUser().getName() + " (" + a.getPriorityForGroup(a.getAssignedGroup()) + ")").toList()));
         }
     }
 
